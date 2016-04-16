@@ -11,19 +11,19 @@ jailadm \- administer jails
 .SH SYNOPSIS
 .LP
 .nf
-\fBjailadm\fR \fB-z\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] \fIsubcommand\fR
+\fBjailadm\fR \fB-j\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] \fIsubcommand\fR
      [\fIsubcommand_options\fR]
 .fi
 
 .LP
 .nf
-\fBjailadm\fR [\fB-R\fR \fIroot\fR] [\fB-z\fR \fIjailname\fR] [\fB-u\fR \fIuuid-match\fR] list
+\fBjailadm\fR [\fB-R\fR \fIroot\fR] [\fB-j\fR \fIjailname\fR] [\fB-u\fR \fIuuid-match\fR] list
      [\fIlist_options\fR]
 .fi
 
 .LP
 .nf
-\fBjailadm\fR [\fB-R\fR \fIroot\fR] \fB-z\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] mark incomplete
+\fBjailadm\fR [\fB-R\fR \fIroot\fR] \fB-j\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] mark incomplete
 .fi
 
 .SH DESCRIPTION
@@ -57,14 +57,14 @@ conjunction with the "\fBlist\fR" and "\fBmark\fR" subcommands.
 .RS 4n
 Unique identifier for a jail, as assigned by \fBlibuuid\fR(3LIB). If this
 option is present and the argument is a non-empty string, then the jail
-matching the \fBUUID\fR is selected instead of the one named by the \fB-z\fR
+matching the \fBUUID\fR is selected instead of the one named by the \fB-j\fR
 option, if such a jail is present.
 .RE
 
 .sp
 .ne 2
 .na
-\fB\fB-z\fR \fIjailname\fR\fR
+\fB\fB-j\fR \fIjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
@@ -119,7 +119,7 @@ Use the following command to attach a jail:
 .sp
 .in +2
 .nf
-# \fBjailadm -z my-jail attach\fR
+# \fBjailadm -j my-jail attach\fR
 .fi
 .in -2
 .sp
@@ -238,7 +238,7 @@ Use the following command to detach a jail:
 .sp
 .in +2
 .nf
-# jailadm -z my-jail detach
+# jailadm -j my-jail detach
 .fi
 .in -2
 .sp
@@ -303,7 +303,7 @@ information.
 Display the name of the current jails, or the specified jail if indicated.
 .sp
 By default, all running jails are listed. If you use this subcommand with the
-\fBjailadm\fR \fB-z\fR \fIjailname\fR option, it lists only the specified jail,
+\fBjailadm\fR \fB-j\fR \fIjailname\fR option, it lists only the specified jail,
 regardless of its state. In this case, the \fB-i\fR and \fB-c\fR options are
 disallowed.
 .sp

@@ -11,17 +11,17 @@ jailcfg \- set up jail configuration
 .SH SYNOPSIS
 .LP
 .nf
-\fBjailcfg\fR \fB-z\fR \fIjailname\fR
+\fBjailcfg\fR \fB-j\fR \fIjailname\fR
 .fi
 
 .LP
 .nf
-\fBjailcfg\fR \fB-z\fR \fIjailname\fR \fIsubcommand\fR
+\fBjailcfg\fR \fB-j\fR \fIjailname\fR \fIsubcommand\fR
 .fi
 
 .LP
 .nf
-\fBjailcfg\fR \fB-z\fR \fIjailname\fR \fB-f\fR \fIcommand_file\fR
+\fBjailcfg\fR \fB-j\fR \fIjailname\fR \fB-f\fR \fIcommand_file\fR
 .fi
 
 .LP
@@ -44,7 +44,7 @@ The following synopsis of the \fBjailcfg\fR command is for interactive usage:
 .sp
 .in +2
 .nf
-jailcfg \fB-z\fR \fIjailname subcommand\fR
+jailcfg \fB-j\fR \fIjailname subcommand\fR
 .fi
 .in -2
 .sp
@@ -1115,7 +1115,7 @@ file of \fBjailcfg\fR subcommands, one per line.
 .sp
 .ne 2
 .na
-\fB\fB-z\fR \fIjailname\fR\fR
+\fB\fB-j\fR \fIjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
@@ -1140,7 +1140,7 @@ which time the scope is reverted back to global. Certain subcommands, such as
 .sp
 .in +2
 .nf
-# \fBjailcfg -z myjail "add net; set physical=myvnic; end"\fR
+# \fBjailcfg -j myjail "add net; set physical=myvnic; end"\fR
 .fi
 .in -2
 .sp
@@ -1419,7 +1419,7 @@ modification.
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z myjail3\fR
+example# \fBjailcfg -j myjail3\fR
 my-jail3: No such jail configured
 Use 'create' to begin configuring a new jail.
 jailcfg:myjail3> \fBcreate\fR
@@ -1468,7 +1468,7 @@ The following example creates a new Linux jail:
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z lxjail\fR
+example# \fBjailcfg -j lxjail\fR
 lxjail: No such jail configured
 Use 'create' to begin configuring a new jail
 jailcfg:lxjail> \fBcreate -t SUNWlx\fR
@@ -1495,7 +1495,7 @@ The IP addresses and routing is configured inside the new jail using
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z excl\fR
+example# \fBjailcfg -j excl\fR
 excl: No such jail configured
 Use 'create' to begin configuring a new jail
 jailcfg:excl> \fBcreate\fR
@@ -1522,7 +1522,7 @@ resource pool:
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z myjail\fR
+example# \fBjailcfg -j myjail\fR
 jailcfg:myjail> \fBset pool=mypool\fR
 jailcfg:myjail> \fBexit\fR
 .fi
@@ -1543,7 +1543,7 @@ The following example shows how to change the name of an existing jail:
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z myjail\fR
+example# \fBjailcfg -j myjail\fR
 jailcfg:myjail> \fBset jailname=myjail2\fR
 jailcfg:myjail2> \fBexit\fR
 .fi
@@ -1563,7 +1563,7 @@ time:
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z myjail\fR
+example# \fBjailcfg -j myjail\fR
 jailcfg:myjail> \fBset limitpriv="default,sys_time"\fR
 jailcfg:myjail2> \fBexit\fR
 .fi
@@ -1580,7 +1580,7 @@ jail:
 .sp
 .in +2
 .nf
-example# \fBjailcfg -z global\fR
+example# \fBjailcfg -j global\fR
 jailcfg:global> \fBset cpu-shares=5\fR
 jailcfg:global> \fBexit\fR
 .fi
