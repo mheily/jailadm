@@ -4,71 +4,71 @@
 .\" The contents of this file are subject to the terms of the Common Development and Distribution License (the "License"). You may not use this file except in compliance with the License. You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE or http://www.opensolaris.org/os/licensing.
 .\" See the License for the specific language governing permissions and limitations under the License. When distributing Covered Code, include this CDDL HEADER in each file and include the License file at usr/src/OPENSOLARIS.LICENSE. If applicable, add the following below this CDDL HEADER, with the
 .\" fields enclosed by brackets "[]" replaced with your own identifying information: Portions Copyright [yyyy] [name of copyright owner]
-.TH ZONECFG 1M "Feb 28, 2014"
+.TH JAILCFG 1M "Feb 28, 2014"
 .SH NAME
-zonecfg \- set up zone configuration
+jailcfg \- set up jail configuration
 .SH SYNOPSIS
 .LP
 .nf
-\fBzonecfg\fR \fB-z\fR \fIzonename\fR
+\fBjailcfg\fR \fB-z\fR \fIjailname\fR
 .fi
 
 .LP
 .nf
-\fBzonecfg\fR \fB-z\fR \fIzonename\fR \fIsubcommand\fR
+\fBjailcfg\fR \fB-z\fR \fIjailname\fR \fIsubcommand\fR
 .fi
 
 .LP
 .nf
-\fBzonecfg\fR \fB-z\fR \fIzonename\fR \fB-f\fR \fIcommand_file\fR
+\fBjailcfg\fR \fB-z\fR \fIjailname\fR \fB-f\fR \fIcommand_file\fR
 .fi
 
 .LP
 .nf
-\fBzonecfg\fR help
+\fBjailcfg\fR help
 .fi
 
 .SH DESCRIPTION
 .sp
 .LP
-The \fBzonecfg\fR utility creates and modifies the configuration of a zone.
-Zone configuration consists of a number of resources and properties.
+The \fBjailcfg\fR utility creates and modifies the configuration of a jail.
+Jail configuration consists of a number of resources and properties.
 .sp
 .LP
-To simplify the user interface, \fBzonecfg\fR uses the concept of a scope. The
+To simplify the user interface, \fBjailcfg\fR uses the concept of a scope. The
 default scope is global.
 .sp
 .LP
-The following synopsis of the \fBzonecfg\fR command is for interactive usage:
+The following synopsis of the \fBjailcfg\fR command is for interactive usage:
 .sp
 .in +2
 .nf
-zonecfg \fB-z\fR \fIzonename subcommand\fR
+jailcfg \fB-z\fR \fIjailname subcommand\fR
 .fi
 .in -2
 .sp
 
 .sp
 .LP
-Parameters changed through \fBzonecfg\fR do not affect a running zone. The zone
+Parameters changed through \fBjailcfg\fR do not affect a running jail. The jail
 must be rebooted for the changes to take effect.
 .sp
 .LP
-In addition to creating and modifying a zone, the \fBzonecfg\fR utility can
+In addition to creating and modifying a jail, the \fBjailcfg\fR utility can
 also be used to persistently specify the resource management settings for the
-global zone.
+global jail.
 .sp
 .LP
 In the following text, "rctl" is used as an abbreviation for "resource
 control". See \fBresource_controls\fR(5).
 .sp
 .LP
-Every zone is configured with an associated brand. The brand determines the
-user-level environment used within the zone, as well as various behaviors for
-the zone when it is installed, boots, or is shutdown. Once a zone has been
+Every jail is configured with an associated brand. The brand determines the
+user-level environment used within the jail, as well as various behaviors for
+the jail when it is installed, boots, or is shutdown. Once a jail has been
 installed the brand cannot be changed. The default brand is determined by the
-installed distribution in the global zone. Some brands do not support all of
-the \fBzonecfg\fR properties and resources. See the brand-specific man page for
+installed distribution in the global jail. Some brands do not support all of
+the \fBjailcfg\fR properties and resources. See the brand-specific man page for
 more details on each brand. For an overview of brands, see the \fBbrands\fR(5)
 man page.
 .SS "Resources"
@@ -122,7 +122,7 @@ Limits for physical, swap, and locked memory.
 .ad
 .sp .6
 .RS 4n
-Subset of the system's processors dedicated to this zone while it is running.
+Subset of the system's processors dedicated to this jail while it is running.
 .RE
 
 .sp
@@ -181,7 +181,7 @@ The following properties are supported:
 .ad
 .sp .6
 .RS 4n
-\fBzonename\fR
+\fBjailname\fR
 .RE
 
 .sp
@@ -191,7 +191,7 @@ The following properties are supported:
 .ad
 .sp .6
 .RS 4n
-\fBzonepath\fR
+\fBjailpath\fR
 .RE
 
 .sp
@@ -458,7 +458,7 @@ list syntax. That is, "foo" is equivalent to "[foo]". A list can be empty
 (denoted by "[]").
 .sp
 .LP
-In interpreting property values, \fBzonecfg\fR accepts regular expressions as
+In interpreting property values, \fBjailcfg\fR accepts regular expressions as
 specified in \fBfnmatch\fR(5). See \fBEXAMPLES\fR.
 .sp
 .LP
@@ -466,21 +466,21 @@ The property types are described as follows:
 .sp
 .ne 2
 .na
-\fBglobal: \fBzonename\fR\fR
+\fBglobal: \fBjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
-The name of the zone.
+The name of the jail.
 .RE
 
 .sp
 .ne 2
 .na
-\fBglobal: \fBzonepath\fR\fR
+\fBglobal: \fBjailpath\fR\fR
 .ad
 .sp .6
 .RS 4n
-Path to zone's file system.
+Path to jail's file system.
 .RE
 
 .sp
@@ -490,19 +490,19 @@ Path to zone's file system.
 .ad
 .sp .6
 .RS 4n
-Boolean indicating that a zone should be booted automatically at system boot.
-Note that if the zones service is disabled, the zone will not autoboot,
-regardless of the setting of this property. You enable the zones service with a
+Boolean indicating that a jail should be booted automatically at system boot.
+Note that if the jails service is disabled, the jail will not autoboot,
+regardless of the setting of this property. You enable the jails service with a
 \fBsvcadm\fR command, such as:
 .sp
 .in +2
 .nf
-# \fBsvcadm enable svc:/system/zones:default\fR
+# \fBsvcadm enable svc:/system/jails:default\fR
 .fi
 .in -2
 .sp
 
-Replace \fBenable\fR with \fBdisable\fR to disable the zones service. See
+Replace \fBenable\fR with \fBdisable\fR to disable the jails service. See
 \fBsvcadm\fR(1M).
 .RE
 
@@ -513,9 +513,9 @@ Replace \fBenable\fR with \fBdisable\fR to disable the zones service. See
 .ad
 .sp .6
 .RS 4n
-Arguments (options) to be passed to the zone bootup, unless options are
-supplied to the "\fBzoneadm boot\fR" command, in which case those take
-precedence. The valid arguments are described in \fBzoneadm\fR(1M).
+Arguments (options) to be passed to the jail bootup, unless options are
+supplied to the "\fBjailadm boot\fR" command, in which case those take
+precedence. The valid arguments are described in \fBjailadm\fR(1M).
 .RE
 
 .sp
@@ -525,7 +525,7 @@ precedence. The valid arguments are described in \fBzoneadm\fR(1M).
 .ad
 .sp .6
 .RS 4n
-Name of the resource pool that this zone must be bound to when booted. This
+Name of the resource pool that this jail must be bound to when booted. This
 property is incompatible with the \fBdedicated-cpu\fR resource.
 .RE
 
@@ -536,23 +536,23 @@ property is incompatible with the \fBdedicated-cpu\fR resource.
 .ad
 .sp .6
 .RS 4n
-The maximum set of privileges any process in this zone can obtain. The property
+The maximum set of privileges any process in this jail can obtain. The property
 should consist of a comma-separated privilege set specification as described in
 \fBpriv_str_to_set\fR(3C). Privileges can be excluded from the resulting set by
 preceding their names with a dash (-) or an exclamation point (!). The special
-privilege string "zone" is not supported in this context. If the special string
+privilege string "jail" is not supported in this context. If the special string
 "default" occurs as the first token in the property, it expands into a safe set
 of privileges that preserve the resource and security isolation described in
-\fBzones\fR(5). A missing or empty property is equivalent to this same set of
+\fBjails\fR(5). A missing or empty property is equivalent to this same set of
 safe privileges.
 .sp
 The system administrator must take extreme care when configuring privileges for
-a zone. Some privileges cannot be excluded through this mechanism as they are
-required in order to boot a zone. In addition, there are certain privileges
-which cannot be given to a zone as doing so would allow processes inside a zone
-to unduly affect processes in other zones. \fBzoneadm\fR(1M) indicates when an
-invalid privilege has been added or removed from a zone's privilege set when an
-attempt is made to either "boot" or "ready" the zone.
+a jail. Some privileges cannot be excluded through this mechanism as they are
+required in order to boot a jail. In addition, there are certain privileges
+which cannot be given to a jail as doing so would allow processes inside a jail
+to unduly affect processes in other jails. \fBjailadm\fR(1M) indicates when an
+invalid privilege has been added or removed from a jail's privilege set when an
+attempt is made to either "boot" or "ready" the jail.
 .sp
 See \fBprivileges\fR(5) for a description of privileges. The command "\fBppriv
 -l\fR" (see \fBppriv\fR(1)) produces a list of all Solaris privileges. You can
@@ -570,7 +570,7 @@ would specify it in this property, is listed in \fBprivileges\fR(5) as
 .ad
 .sp .6
 .RS 4n
-The zone's brand type.
+The jail's brand type.
 .RE
 
 .sp
@@ -580,7 +580,7 @@ The zone's brand type.
 .ad
 .sp .6
 .RS 4n
-A zone can either share the IP instance with the global zone, which is the
+A jail can either share the IP instance with the global jail, which is the
 default, or have its own exclusive instance of IP.
 .sp
 This property takes the values \fBshared\fR and \fBexclusive\fR.
@@ -593,9 +593,9 @@ This property takes the values \fBshared\fR and \fBexclusive\fR.
 .ad
 .sp .6
 .RS 4n
-A zone can emulate a 32-bit host identifier to ease system consolidation. A
-zone's \fBhostid\fR property is empty by default, meaning that the zone does
-not emulate a host identifier. Zone host identifiers must be hexadecimal values
+A jail can emulate a 32-bit host identifier to ease system consolidation. A
+jail's \fBhostid\fR property is empty by default, meaning that the jail does
+not emulate a host identifier. Jail host identifiers must be hexadecimal values
 between 0 and FFFFFFFE. A \fB0x\fR or \fB0X\fR prefix is optional. Both
 uppercase and lowercase hexadecimal digits are acceptable.
 .RE
@@ -645,15 +645,15 @@ The physical interface name is the network interface name.
 The default router is specified similarly to the network address except that it
 must not be followed by a \fB/\fR (slash) and a network prefix length.
 .sp
-A zone can be configured to be either exclusive-IP or shared-IP. For a
-shared-IP zone, you must set both the physical and address properties; setting
+A jail can be configured to be either exclusive-IP or shared-IP. For a
+shared-IP jail, you must set both the physical and address properties; setting
 the default router is optional. The interface specified in the physical
-property must be plumbed in the global zone prior to booting the non-global
-zone. However, if the interface is not used by the global zone, it should be
-configured \fBdown\fR in the global zone, and the default router for the
+property must be plumbed in the global jail prior to booting the non-global
+jail. However, if the interface is not used by the global jail, it should be
+configured \fBdown\fR in the global jail, and the default router for the
 interface should be specified here.
 .sp
-For an exclusive-IP zone, the physical property must be set and the address and
+For an exclusive-IP jail, the physical property must be set and the address and
 default router properties cannot be set.
 .RE
 
@@ -698,7 +698,7 @@ that type. \fBuint\fR means unsigned , that is, a non-negative integer.
 .ad
 .sp .6
 .RS 4n
-The name of a \fBZFS\fR dataset to be accessed from within the zone. See
+The name of a \fBZFS\fR dataset to be accessed from within the jail. See
 \fBzfs\fR(1M).
 .RE
 
@@ -709,9 +709,9 @@ The name of a \fBZFS\fR dataset to be accessed from within the zone. See
 .ad
 .sp .6
 .RS 4n
-The number of Fair Share Scheduler (FSS) shares to allocate to this zone. This
+The number of Fair Share Scheduler (FSS) shares to allocate to this jail. This
 property is incompatible with the \fBdedicated-cpu\fR resource. This property
-is the preferred way to set the \fBzone.cpu-shares\fR rctl.
+is the preferred way to set the \fBjail.cpu-shares\fR rctl.
 .RE
 
 .sp
@@ -721,8 +721,8 @@ is the preferred way to set the \fBzone.cpu-shares\fR rctl.
 .ad
 .sp .6
 .RS 4n
-The maximum number of LWPs simultaneously available to this zone. This property
-is the preferred way to set the \fBzone.max-lwps\fR rctl.
+The maximum number of LWPs simultaneously available to this jail. This property
+is the preferred way to set the \fBjail.max-lwps\fR rctl.
 .RE
 
 .sp
@@ -732,8 +732,8 @@ is the preferred way to set the \fBzone.max-lwps\fR rctl.
 .ad
 .sp .6
 .RS 4n
-The maximum number of message queue IDs allowed for this zone. This property is
-the preferred way to set the \fBzone.max-msg-ids\fR rctl.
+The maximum number of message queue IDs allowed for this jail. This property is
+the preferred way to set the \fBjail.max-msg-ids\fR rctl.
 .RE
 
 .sp
@@ -743,8 +743,8 @@ the preferred way to set the \fBzone.max-msg-ids\fR rctl.
 .ad
 .sp .6
 .RS 4n
-The maximum number of semaphore IDs allowed for this zone. This property is the
-preferred way to set the \fBzone.max-sem-ids\fR rctl.
+The maximum number of semaphore IDs allowed for this jail. This property is the
+preferred way to set the \fBjail.max-sem-ids\fR rctl.
 .RE
 
 .sp
@@ -754,8 +754,8 @@ preferred way to set the \fBzone.max-sem-ids\fR rctl.
 .ad
 .sp .6
 .RS 4n
-The maximum number of shared memory IDs allowed for this zone. This property is
-the preferred way to set the \fBzone.max-shm-ids\fR rctl.
+The maximum number of shared memory IDs allowed for this jail. This property is
+the preferred way to set the \fBjail.max-shm-ids\fR rctl.
 .RE
 
 .sp
@@ -765,8 +765,8 @@ the preferred way to set the \fBzone.max-shm-ids\fR rctl.
 .ad
 .sp .6
 .RS 4n
-The maximum amount of shared memory allowed for this zone. This property is the
-preferred way to set the \fBzone.max-shm-memory\fR rctl. A scale (K, M, G, T)
+The maximum amount of shared memory allowed for this jail. This property is the
+preferred way to set the \fBjail.max-shm-memory\fR rctl. A scale (K, M, G, T)
 can be applied to the value for this number (for example, 1M is one megabyte).
 .RE
 
@@ -777,7 +777,7 @@ can be applied to the value for this number (for example, 1M is one megabyte).
 .ad
 .sp .6
 .RS 4n
-Specifies the scheduling class used for processes running in a zone. When this
+Specifies the scheduling class used for processes running in a jail. When this
 property is not specified, the scheduling class is established as follows:
 .RS +4
 .TP
@@ -790,7 +790,7 @@ class FSS is used.
 .TP
 .ie t \(bu
 .el o
-If neither \fBcpu-shares\fR nor the equivalent rctl is set and the zone's pool
+If neither \fBcpu-shares\fR nor the equivalent rctl is set and the jail's pool
 property references a pool that has a default scheduling class, that class is
 used.
 .RE
@@ -811,17 +811,17 @@ Under any other conditions, the system default scheduling class is used.
 .ad
 .sp .6
 .RS 4n
-The number of CPUs that should be assigned for this zone's exclusive use. The
-zone will create a pool and processor set when it boots. See \fBpooladm\fR(1M)
+The number of CPUs that should be assigned for this jail's exclusive use. The
+jail will create a pool and processor set when it boots. See \fBpooladm\fR(1M)
 and \fBpoolcfg\fR(1M) for more information on resource pools. The \fBncpu\fR
 property can specify a single value or a range (for example, 1-4) of
 processors. The \fBimportance\fR property is optional; if set, it will specify
 the \fBpset.importance\fR value for use by \fBpoold\fR(1M). If this resource is
-used, there must be enough free processors to allocate to this zone when it
-boots or the zone will not boot. The processors assigned to this zone will not
-be available for the use of the global zone or other zones. This resource is
+used, there must be enough free processors to allocate to this jail when it
+boots or the jail will not boot. The processors assigned to this jail will not
+be available for the use of the global jail or other jails. This resource is
 incompatible with both the \fBpool\fR and \fBcpu-shares\fR properties. Only a
-single instance of this resource can be added to the zone.
+single instance of this resource can be added to the jail.
 .RE
 
 .sp
@@ -831,15 +831,15 @@ single instance of this resource can be added to the zone.
 .ad
 .sp .6
 .RS 4n
-The caps on the memory that can be used by this zone. A scale (K, M, G, T) can
+The caps on the memory that can be used by this jail. A scale (K, M, G, T) can
 be applied to the value for each of these numbers (for example, 1M is one
 megabyte). Each of these properties is optional but at least one property must
 be set when adding this resource. Only a single instance of this resource can
-be added to the zone. The \fBphysical\fR property sets the \fBmax-rss\fR for
-this zone. This will be enforced by \fBrcapd\fR(1M) running in the global zone.
-The \fBswap\fR property is the preferred way to set the \fBzone.max-swap\fR
+be added to the jail. The \fBphysical\fR property sets the \fBmax-rss\fR for
+this jail. This will be enforced by \fBrcapd\fR(1M) running in the global jail.
+The \fBswap\fR property is the preferred way to set the \fBjail.max-swap\fR
 rctl. The \fBlocked\fR property is the preferred way to set the
-\fBzone.max-locked-memory\fR rctl.
+\fBjail.max-locked-memory\fR rctl.
 .RE
 
 .sp
@@ -849,16 +849,16 @@ rctl. The \fBlocked\fR property is the preferred way to set the
 .ad
 .sp .6
 .RS 4n
-Sets a limit on the amount of CPU time that can be used by a zone. The unit
+Sets a limit on the amount of CPU time that can be used by a jail. The unit
 used translates to the percentage of a single CPU that can be used by all user
-threads in a zone, expressed as a fraction (for example, \fB\&.75\fR) or a
+threads in a jail, expressed as a fraction (for example, \fB\&.75\fR) or a
 mixed number (whole number and fraction, for example, \fB1.25\fR). An
 \fBncpu\fR value of \fB1\fR means 100% of a CPU, a value of \fB1.25\fR means
-125%, \fB\&.75\fR mean 75%, and so forth. When projects within a capped zone
+125%, \fB\&.75\fR mean 75%, and so forth. When projects within a capped jail
 have their own caps, the minimum value takes precedence.
 .sp
-The \fBcapped-cpu\fR property is an alias for \fBzone.cpu-cap\fR resource
-control and is related to the \fBzone.cpu-cap\fR resource control. See
+The \fBcapped-cpu\fR property is an alias for \fBjail.cpu-cap\fR resource
+control and is related to the \fBjail.cpu-cap\fR resource control. See
 \fBresource_controls\fR(5).
 .RE
 
@@ -870,15 +870,15 @@ control and is related to the \fBzone.cpu-cap\fR resource control. See
 .sp .6
 .RS 4n
 A comma-separated list of additional filesystems that may be mounted within
-the zone; for example "ufs,pcfs". By default, only hsfs(7fs) and network
+the jail; for example "ufs,pcfs". By default, only hsfs(7fs) and network
 filesystems can be mounted. If the first entry in the list is "-" then
 that disables all of the default filesystems. If any filesystems are listed
 after "-" then only those filesystems can be mounted.
 
-This property does not apply to filesystems mounted into the zone via "add fs"
+This property does not apply to filesystems mounted into the jail via "add fs"
 or "add dataset".
 
-WARNING: allowing filesystem mounts other than the default may allow the zone
+WARNING: allowing filesystem mounts other than the default may allow the jail
 administrator to compromise the system with a malicious filesystem image, and
 is not supported.
 .RE
@@ -890,8 +890,8 @@ The following table summarizes resources, property-names, and types:
 .in +2
 .nf
 resource          property-name   type
-(global)          zonename        simple
-(global)          zonepath        simple
+(global)          jailname        simple
+(global)          jailpath        simple
 (global)          autoboot        simple
 (global)          bootargs        simple
 (global)          pool            simple
@@ -938,16 +938,16 @@ To further specify things, the breakdown of the complex property "value" of the
 "rctl" resource type, it consists of three name/value pairs, the names being
 "priv", "limit" and "action", each of which takes a simple value. The "name"
 property of an "attr" resource is syntactically restricted in a fashion similar
-but not identical to zone names: it must begin with an alphanumeric, and can
+but not identical to jail names: it must begin with an alphanumeric, and can
 contain alphanumerics plus the hyphen (\fB-\fR), underscore (\fB_\fR), and dot
-(\fB\&.\fR) characters. Attribute names beginning with "zone" are reserved for
+(\fB\&.\fR) characters. Attribute names beginning with "jail" are reserved for
 use by the system. Finally, the "autoboot" global property must have a value of
 "true" or "false".
 .SS "Using Kernel Statistics to Monitor CPU Caps"
 .sp
 .LP
 Using the kernel statistics (\fBkstat\fR(3KSTAT)) module \fBcaps\fR, the system
-maintains information for all capped projects and zones. You can access this
+maintains information for all capped projects and jails. You can access this
 information by reading kernel statistics (\fBkstat\fR(3KSTAT)), specifying
 \fBcaps\fR as the \fBkstat\fR module name. The following command displays
 kernel statistics for all active CPU caps:
@@ -961,8 +961,8 @@ kernel statistics for all active CPU caps:
 
 .sp
 .LP
-A \fBkstat\fR(1M) command running in a zone displays only CPU caps relevant for
-that zone and for projects in that zone. See \fBEXAMPLES\fR.
+A \fBkstat\fR(1M) command running in a jail displays only CPU caps relevant for
+that jail and for projects in that jail. See \fBEXAMPLES\fR.
 .sp
 .LP
 The following are cap-related arguments for use with \fBkstat\fR(1M):
@@ -979,7 +979,7 @@ The \fBkstat\fR module.
 .sp
 .ne 2
 .na
-\fB\fBproject_caps\fR or \fBzone_caps\fR\fR
+\fB\fBproject_caps\fR or \fBjail_caps\fR\fR
 .ad
 .sp .6
 .RS 4n
@@ -989,12 +989,12 @@ The \fBkstat\fR module.
 .sp
 .ne 2
 .na
-\fB\fBcpucaps_project_\fR\fIid\fR or \fBcpucaps_zone_\fR\fIid\fR\fR
+\fB\fBcpucaps_project_\fR\fIid\fR or \fBcpucaps_jail_\fR\fIid\fR\fR
 .ad
 .sp .6
 .RS 4n
 \fBkstat\fR name, for use with the \fBkstat\fR \fB-n\fR option. \fIid\fR is the
-project or zone identifier.
+project or jail identifier.
 .RE
 
 .sp
@@ -1019,7 +1019,7 @@ In this usage of \fBkstat\fR, this field will have the value \fBcaps\fR.
 .sp .6
 .RS 4n
 As described above, \fBcpucaps_project_\fR\fIid\fR or
-\fBcpucaps_zone_\fR\fIid\fR
+\fBcpucaps_jail_\fR\fIid\fR
 .RE
 
 .sp
@@ -1070,7 +1070,7 @@ Number of threads on cap wait queue.
 .sp .6
 .RS 4n
 Current aggregated CPU usage for all threads belonging to a capped project or
-zone, in terms of a percentage of a single CPU.
+jail, in terms of a percentage of a single CPU.
 .RE
 
 .sp
@@ -1086,11 +1086,11 @@ The cap value, in terms of a percentage of a single CPU.
 .sp
 .ne 2
 .na
-\fB\fBzonename\fR\fR
+\fB\fBjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
-Name of the zone for which statistics are displayed.
+Name of the jail for which statistics are displayed.
 .RE
 
 .sp
@@ -1107,18 +1107,18 @@ The following options are supported:
 .ad
 .sp .6
 .RS 4n
-Specify the name of \fBzonecfg\fR command file. \fIcommand_file\fR is a text
-file of \fBzonecfg\fR subcommands, one per line.
+Specify the name of \fBjailcfg\fR command file. \fIcommand_file\fR is a text
+file of \fBjailcfg\fR subcommands, one per line.
 .RE
 
 .sp
 .ne 2
 .na
-\fB\fB-z\fR \fIzonename\fR\fR
+\fB\fB-z\fR \fIjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
-Specify the name of a zone. Zone names are case sensitive. Zone names must
+Specify the name of a jail. Jail names are case sensitive. Jail names must
 begin with an alphanumeric character and can contain alphanumeric characters,
 the underscore (\fB_\fR) the hyphen (\fB-\fR), and the dot (\fB\&.\fR). The
 name \fBglobal\fR and all names beginning with \fBSUNW\fR are reserved and
@@ -1135,11 +1135,11 @@ which time the scope is reverted back to global. Certain subcommands, such as
 \fBadd\fR, \fBremove\fR and \fBset\fR, have different semantics in each scope.
 .sp
 .LP
-\fBzonecfg\fR supports a semicolon-separated list of subcommands. For example:
+\fBjailcfg\fR supports a semicolon-separated list of subcommands. For example:
 .sp
 .in +2
 .nf
-# \fBzonecfg -z myzone "add net; set physical=myvnic; end"\fR
+# \fBjailcfg -z myjail "add net; set physical=myvnic; end"\fR
 .fi
 .in -2
 .sp
@@ -1205,10 +1205,10 @@ Clear the value for the property.
 .sp .6
 .RS 4n
 Commit the current configuration from memory to stable storage. The
-configuration must be committed to be used by \fBzoneadm\fR. Until the
+configuration must be committed to be used by \fBjailadm\fR. Until the
 in-memory configuration is committed, you can remove changes with the
 \fBrevert\fR subcommand. The \fBcommit\fR operation is attempted automatically
-upon completion of a \fBzonecfg\fR session. Since a configuration must be
+upon completion of a \fBjailcfg\fR session. Since a configuration must be
 correct to be committed, this operation automatically does a verify.
 .RE
 
@@ -1220,21 +1220,21 @@ correct to be committed, this operation automatically does a verify.
 .ad
 .sp .6
 .RS 4n
-Create an in-memory configuration for the specified zone. Use \fBcreate\fR to
-begin to configure a new zone. See \fBcommit\fR for saving this to stable
+Create an in-memory configuration for the specified jail. Use \fBcreate\fR to
+begin to configure a new jail. See \fBcommit\fR for saving this to stable
 storage.
 .sp
 If you are overwriting an existing configuration, specify the \fB-F\fR option
 to force the action. Specify the \fB-t\fR \fItemplate\fR option to create a
 configuration identical to \fItemplate\fR, where \fItemplate\fR is the name of
-a configured zone.
+a configured jail.
 .sp
-Use the \fB-a\fR \fIpath\fR option to facilitate configuring a detached zone on
-a new host. The \fIpath\fR parameter is the zonepath location of a detached
-zone that has been moved on to this new host. Once the detached zone is
-configured, it should be installed using the "\fBzoneadm attach\fR" command
-(see \fBzoneadm\fR(1M)). All validation of the new zone happens during the
-\fBattach\fR process, not during zone configuration.
+Use the \fB-a\fR \fIpath\fR option to facilitate configuring a detached jail on
+a new host. The \fIpath\fR parameter is the jailpath location of a detached
+jail that has been moved on to this new host. Once the detached jail is
+configured, it should be installed using the "\fBjailadm attach\fR" command
+(see \fBjailadm\fR(1M)). All validation of the new jail happens during the
+\fBattach\fR process, not during jail configuration.
 .sp
 Use the \fB-b\fR option to create a blank configuration. Without arguments,
 \fBcreate\fR applies the Sun default settings.
@@ -1262,7 +1262,7 @@ Specify the \fB-F\fR option to force the action.
 .sp .6
 .RS 4n
 End the resource specification. This subcommand is only applicable in the
-resource scope. \fBzonecfg\fR checks to make sure the current resource is
+resource scope. \fBjailcfg\fR checks to make sure the current resource is
 completely specified. If so, it is added to the in-memory configuration (see
 \fBcommit\fR for saving this to stable storage) and the scope reverts to
 global. If the specification is incomplete, it issues an appropriate error
@@ -1294,7 +1294,7 @@ Print general help or help about given topic.
 .sp
 .ne 2
 .na
-\fB\fBinfo zonename | zonepath | autoboot | brand | pool | limitpriv\fR\fR
+\fB\fBinfo jailname | jailpath | autoboot | brand | pool | limitpriv\fR\fR
 .ad
 .br
 .na
@@ -1352,7 +1352,7 @@ for the resource to be uniquely identified.
 .sp .6
 .RS 4n
 Set a given property name to the given value. Some properties (for example,
-\fBzonename\fR and \fBzonepath\fR) are global while others are
+\fBjailname\fR and \fBjailpath\fR) are global while others are
 resource-specific. This subcommand is applicable in both the global and
 resource scopes.
 .RE
@@ -1375,7 +1375,7 @@ All resources have all of their required properties specified.
 .TP
 .ie t \(bu
 .el o
-A \fBzonepath\fR is specified.
+A \fBjailpath\fR is specified.
 .RE
 .RE
 
@@ -1397,133 +1397,133 @@ can be used to force the action.
 .ad
 .sp .6
 .RS 4n
-Exit the \fBzonecfg\fR session. A commit is automatically attempted if needed.
-You can also use an \fBEOF\fR character to exit \fBzonecfg\fR. The \fB-F\fR
+Exit the \fBjailcfg\fR session. A commit is automatically attempted if needed.
+You can also use an \fBEOF\fR character to exit \fBjailcfg\fR. The \fB-F\fR
 option can be used to force the action.
 .RE
 
 .SH EXAMPLES
 .LP
-\fBExample 1 \fRCreating the Environment for a New Zone
+\fBExample 1 \fRCreating the Environment for a New Jail
 .sp
 .LP
-In the following example, \fBzonecfg\fR creates the environment for a new zone.
-\fB/usr/local\fR is loopback mounted from the global zone into
-\fB/opt/local\fR. \fB/opt/sfw\fR is loopback mounted from the global zone,
+In the following example, \fBjailcfg\fR creates the environment for a new jail.
+\fB/usr/local\fR is loopback mounted from the global jail into
+\fB/opt/local\fR. \fB/opt/sfw\fR is loopback mounted from the global jail,
 three logical network interfaces are added, and a limit on the number of
-fair-share scheduler (FSS) CPU shares for a zone is set using the \fBrctl\fR
+fair-share scheduler (FSS) CPU shares for a jail is set using the \fBrctl\fR
 resource type. The example also shows how to select a given resource for
 modification.
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z myzone3\fR
-my-zone3: No such zone configured
-Use 'create' to begin configuring a new zone.
-zonecfg:myzone3> \fBcreate\fR
-zonecfg:myzone3> \fBset zonepath=/export/home/my-zone3\fR
-zonecfg:myzone3> \fBset autoboot=true\fR
-zonecfg:myzone3> \fBadd fs\fR
-zonecfg:myzone3:fs> \fBset dir=/usr/local\fR
-zonecfg:myzone3:fs> \fBset special=/opt/local\fR
-zonecfg:myzone3:fs> \fBset type=lofs\fR
-zonecfg:myzone3:fs> \fBadd options [ro,nodevices]\fR
-zonecfg:myzone3:fs> \fBend\fR
-zonecfg:myzone3> \fBadd fs\fR
-zonecfg:myzone3:fs> \fBset dir=/mnt\fR
-zonecfg:myzone3:fs> \fBset special=/dev/dsk/c0t0d0s7\fR
-zonecfg:myzone3:fs> \fBset raw=/dev/rdsk/c0t0d0s7\fR
-zonecfg:myzone3:fs> \fBset type=ufs\fR
-zonecfg:myzone3:fs> \fBend\fR
-zonecfg:myzone3> \fBadd net\fR
-zonecfg:myzone3:net> \fBset address=192.168.0.1/24\fR
-zonecfg:myzone3:net> \fBset physical=eri0\fR
-zonecfg:myzone3:net> \fBend\fR
-zonecfg:myzone3> \fBadd net\fR
-zonecfg:myzone3:net> \fBset address=192.168.1.2/24\fR
-zonecfg:myzone3:net> \fBset physical=eri0\fR
-zonecfg:myzone3:net> \fBend\fR
-zonecfg:myzone3> \fBadd net\fR
-zonecfg:myzone3:net> \fBset address=192.168.2.3/24\fR
-zonecfg:myzone3:net> \fBset physical=eri0\fR
-zonecfg:myzone3:net> \fBend\fR
-zonecfg:my-zone3> \fBset cpu-shares=5\fR
-zonecfg:my-zone3> \fBadd capped-memory\fR
-zonecfg:my-zone3:capped-memory> \fBset physical=50m\fR
-zonecfg:my-zone3:capped-memory> \fBset swap=100m\fR
-zonecfg:my-zone3:capped-memory> \fBend\fR
-zonecfg:myzone3> \fBexit\fR
+example# \fBjailcfg -z myjail3\fR
+my-jail3: No such jail configured
+Use 'create' to begin configuring a new jail.
+jailcfg:myjail3> \fBcreate\fR
+jailcfg:myjail3> \fBset jailpath=/export/home/my-jail3\fR
+jailcfg:myjail3> \fBset autoboot=true\fR
+jailcfg:myjail3> \fBadd fs\fR
+jailcfg:myjail3:fs> \fBset dir=/usr/local\fR
+jailcfg:myjail3:fs> \fBset special=/opt/local\fR
+jailcfg:myjail3:fs> \fBset type=lofs\fR
+jailcfg:myjail3:fs> \fBadd options [ro,nodevices]\fR
+jailcfg:myjail3:fs> \fBend\fR
+jailcfg:myjail3> \fBadd fs\fR
+jailcfg:myjail3:fs> \fBset dir=/mnt\fR
+jailcfg:myjail3:fs> \fBset special=/dev/dsk/c0t0d0s7\fR
+jailcfg:myjail3:fs> \fBset raw=/dev/rdsk/c0t0d0s7\fR
+jailcfg:myjail3:fs> \fBset type=ufs\fR
+jailcfg:myjail3:fs> \fBend\fR
+jailcfg:myjail3> \fBadd net\fR
+jailcfg:myjail3:net> \fBset address=192.168.0.1/24\fR
+jailcfg:myjail3:net> \fBset physical=eri0\fR
+jailcfg:myjail3:net> \fBend\fR
+jailcfg:myjail3> \fBadd net\fR
+jailcfg:myjail3:net> \fBset address=192.168.1.2/24\fR
+jailcfg:myjail3:net> \fBset physical=eri0\fR
+jailcfg:myjail3:net> \fBend\fR
+jailcfg:myjail3> \fBadd net\fR
+jailcfg:myjail3:net> \fBset address=192.168.2.3/24\fR
+jailcfg:myjail3:net> \fBset physical=eri0\fR
+jailcfg:myjail3:net> \fBend\fR
+jailcfg:my-jail3> \fBset cpu-shares=5\fR
+jailcfg:my-jail3> \fBadd capped-memory\fR
+jailcfg:my-jail3:capped-memory> \fBset physical=50m\fR
+jailcfg:my-jail3:capped-memory> \fBset swap=100m\fR
+jailcfg:my-jail3:capped-memory> \fBend\fR
+jailcfg:myjail3> \fBexit\fR
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 2 \fRCreating a Non-Native Zone
+\fBExample 2 \fRCreating a Non-Native Jail
 .sp
 .LP
-The following example creates a new Linux zone:
+The following example creates a new Linux jail:
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z lxzone\fR
-lxzone: No such zone configured
-Use 'create' to begin configuring a new zone
-zonecfg:lxzone> \fBcreate -t SUNWlx\fR
-zonecfg:lxzone> \fBset zonepath=/export/zones/lxzone\fR
-zonecfg:lxzone> \fBset autoboot=true\fR
-zonecfg:lxzone> \fBexit\fR
+example# \fBjailcfg -z lxjail\fR
+lxjail: No such jail configured
+Use 'create' to begin configuring a new jail
+jailcfg:lxjail> \fBcreate -t SUNWlx\fR
+jailcfg:lxjail> \fBset jailpath=/export/jails/lxjail\fR
+jailcfg:lxjail> \fBset autoboot=true\fR
+jailcfg:lxjail> \fBexit\fR
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 3 \fRCreating an Exclusive-IP Zone
+\fBExample 3 \fRCreating an Exclusive-IP Jail
 .sp
 .LP
-The following example creates a zone that is granted exclusive access to
+The following example creates a jail that is granted exclusive access to
 \fBbge1\fR and \fBbge33000\fR and that is isolated at the IP layer from the
-other zones configured on the system.
+other jails configured on the system.
 
 .sp
 .LP
-The IP addresses and routing is configured inside the new zone using
+The IP addresses and routing is configured inside the new jail using
 \fBsysidtool\fR(1M).
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z excl\fR
-excl: No such zone configured
-Use 'create' to begin configuring a new zone
-zonecfg:excl> \fBcreate\fR
-zonecfg:excl> \fBset zonepath=/export/zones/excl\fR
-zonecfg:excl> \fBset ip-type=exclusive\fR
-zonecfg:excl> \fBadd net\fR
-zonecfg:excl:net> \fBset physical=bge1\fR
-zonecfg:excl:net> \fBend\fR
-zonecfg:excl> \fBadd net\fR
-zonecfg:excl:net> \fBset physical=bge33000\fR
-zonecfg:excl:net> \fBend\fR
-zonecfg:excl> \fBexit\fR
+example# \fBjailcfg -z excl\fR
+excl: No such jail configured
+Use 'create' to begin configuring a new jail
+jailcfg:excl> \fBcreate\fR
+jailcfg:excl> \fBset jailpath=/export/jails/excl\fR
+jailcfg:excl> \fBset ip-type=exclusive\fR
+jailcfg:excl> \fBadd net\fR
+jailcfg:excl:net> \fBset physical=bge1\fR
+jailcfg:excl:net> \fBend\fR
+jailcfg:excl> \fBadd net\fR
+jailcfg:excl:net> \fBset physical=bge33000\fR
+jailcfg:excl:net> \fBend\fR
+jailcfg:excl> \fBexit\fR
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 4 \fRAssociating a Zone with a Resource Pool
+\fBExample 4 \fRAssociating a Jail with a Resource Pool
 .sp
 .LP
-The following example shows how to associate an existing zone with an existing
+The following example shows how to associate an existing jail with an existing
 resource pool:
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z myzone\fR
-zonecfg:myzone> \fBset pool=mypool\fR
-zonecfg:myzone> \fBexit\fR
+example# \fBjailcfg -z myjail\fR
+jailcfg:myjail> \fBset pool=mypool\fR
+jailcfg:myjail> \fBexit\fR
 .fi
 .in -2
 .sp
@@ -1534,54 +1534,54 @@ For more information about resource pools, see \fBpooladm\fR(1M) and
 \fBpoolcfg\fR(1M).
 
 .LP
-\fBExample 5 \fRChanging the Name of a Zone
+\fBExample 5 \fRChanging the Name of a Jail
 .sp
 .LP
-The following example shows how to change the name of an existing zone:
+The following example shows how to change the name of an existing jail:
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z myzone\fR
-zonecfg:myzone> \fBset zonename=myzone2\fR
-zonecfg:myzone2> \fBexit\fR
+example# \fBjailcfg -z myjail\fR
+jailcfg:myjail> \fBset jailname=myjail2\fR
+jailcfg:myjail2> \fBexit\fR
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 6 \fRChanging the Privilege Set of a Zone
+\fBExample 6 \fRChanging the Privilege Set of a Jail
 .sp
 .LP
 The following example shows how to change the set of privileges an existing
-zone's processes will be limited to the next time the zone is booted. In this
+jail's processes will be limited to the next time the jail is booted. In this
 particular case, the privilege set will be the standard safe set of privileges
-a zone normally has along with the privilege to change the system date and
+a jail normally has along with the privilege to change the system date and
 time:
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z myzone\fR
-zonecfg:myzone> \fBset limitpriv="default,sys_time"\fR
-zonecfg:myzone2> \fBexit\fR
+example# \fBjailcfg -z myjail\fR
+jailcfg:myjail> \fBset limitpriv="default,sys_time"\fR
+jailcfg:myjail2> \fBexit\fR
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 7 \fRSetting the \fBzone.cpu-shares\fR Property for the Global Zone
+\fBExample 7 \fRSetting the \fBjail.cpu-shares\fR Property for the Global Jail
 .sp
 .LP
-The following command sets the \fBzone.cpu-shares\fR property for the global
-zone:
+The following command sets the \fBjail.cpu-shares\fR property for the global
+jail:
 
 .sp
 .in +2
 .nf
-example# \fBzonecfg -z global\fR
-zonecfg:global> \fBset cpu-shares=5\fR
-zonecfg:global> \fBexit\fR
+example# \fBjailcfg -z global\fR
+jailcfg:global> \fBset cpu-shares=5\fR
+jailcfg:global> \fBexit\fR
 .fi
 .in -2
 .sp
@@ -1590,22 +1590,22 @@ zonecfg:global> \fBexit\fR
 \fBExample 8 \fRUsing Pattern Matching
 .sp
 .LP
-The following commands illustrate \fBzonecfg\fR support for pattern matching.
-In the zone \fBflexlm\fR, enter:
+The following commands illustrate \fBjailcfg\fR support for pattern matching.
+In the jail \fBflexlm\fR, enter:
 
 .sp
 .in +2
 .nf
-zonecfg:flexlm> \fBadd device\fR
-zonecfg:flexlm:device> \fBset match="/dev/cua/a00[2-5]"\fR
-zonecfg:flexlm:device> \fBend\fR
+jailcfg:flexlm> \fBadd device\fR
+jailcfg:flexlm:device> \fBset match="/dev/cua/a00[2-5]"\fR
+jailcfg:flexlm:device> \fBend\fR
 .fi
 .in -2
 .sp
 
 .sp
 .LP
-In the global zone, enter:
+In the global jail, enter:
 
 .sp
 .in +2
@@ -1618,7 +1618,7 @@ a     a000  a001  a002  a003  a004  a005  a006  a007  b
 
 .sp
 .LP
-In the zone \fBflexlm\fR, enter:
+In the jail \fBflexlm\fR, enter:
 
 .sp
 .in +2
@@ -1630,18 +1630,18 @@ a002  a003  a004  a005
 .sp
 
 .LP
-\fBExample 9 \fRSetting a Cap for a Zone to Three CPUs
+\fBExample 9 \fRSetting a Cap for a Jail to Three CPUs
 .sp
 .LP
-The following sequence uses the \fBzonecfg\fR command to set the CPU cap for a
-zone to three CPUs.
+The following sequence uses the \fBjailcfg\fR command to set the CPU cap for a
+jail to three CPUs.
 
 .sp
 .in +2
 .nf
-zonecfg:myzone> \fBadd capped-cpu\fR
-zonecfg:myzone>capped-cpu> \fBset ncpus=3\fR
-zonecfg:myzone>capped-cpu>capped-cpu> \fBend\fR
+jailcfg:myjail> \fBadd capped-cpu\fR
+jailcfg:myjail>capped-cpu> \fBset ncpus=3\fR
+jailcfg:myjail>capped-cpu>capped-cpu> \fBend\fR
 .fi
 .in -2
 .sp
@@ -1649,16 +1649,16 @@ zonecfg:myzone>capped-cpu>capped-cpu> \fBend\fR
 .sp
 .LP
 The preceding sequence, which uses the capped-cpu property, is equivalent to
-the following sequence, which makes use of the \fBzone.cpu-cap\fR resource
+the following sequence, which makes use of the \fBjail.cpu-cap\fR resource
 control.
 
 .sp
 .in +2
 .nf
-zonecfg:myzone> \fBadd rctl\fR
-zonecfg:myzone:rctl> \fBset name=zone.cpu-cap\fR
-zonecfg:myzone:rctl> \fBadd value (priv=privileged,limit=300,action=none)\fR
-zonecfg:myzone:rctl> \fBend\fR
+jailcfg:myjail> \fBadd rctl\fR
+jailcfg:myjail:rctl> \fBset name=jail.cpu-cap\fR
+jailcfg:myjail:rctl> \fBadd value (priv=privileged,limit=300,action=none)\fR
+jailcfg:myjail:rctl> \fBend\fR
 .fi
 .in -2
 .sp
@@ -1683,7 +1683,7 @@ name:   cpucaps_project_0               class:    project_caps
         snaptime                        235885.637253027
         usage                           0
         value                           18446743151372347932
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
 name:   cpucaps_project_1               class:    project_caps
@@ -1695,7 +1695,7 @@ name:   cpucaps_project_1               class:    project_caps
         snaptime                        235885.637591677
         usage                           5
         value                           18446743151372347932
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
 name:   cpucaps_project_201             class:    project_caps
@@ -1707,7 +1707,7 @@ name:   cpucaps_project_201             class:    project_caps
         snaptime                        235885.637789687
         usage                           43
         value                           100
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
 name:   cpucaps_project_202             class:    project_caps
@@ -1719,7 +1719,7 @@ name:   cpucaps_project_202             class:    project_caps
         snaptime                        235885.637967512
         usage                           48
         value                           100
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
 name:   cpucaps_project_203             class:    project_caps
@@ -1731,7 +1731,7 @@ name:   cpucaps_project_203             class:    project_caps
         snaptime                        235885.638144304
         usage                           47
         value                           100
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
 name:   cpucaps_project_86710           class:    project_caps
@@ -1743,10 +1743,10 @@ name:   cpucaps_project_86710           class:    project_caps
         snaptime                        235885.638319871
         usage                           54
         value                           100
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 0
-name:   cpucaps_zone_0                  class:    zone_caps
+name:   cpucaps_jail_0                  class:    jail_caps
         above_sec                       100733
         below_sec                       134332
         crtime                          821.048177123
@@ -1755,7 +1755,7 @@ name:   cpucaps_zone_0                  class:    zone_caps
         snaptime                        235885.638497731
         usage                           199
         value                           200
-        zonename                        global
+        jailname                        global
 
 module: caps                            instance: 1
 name:   cpucaps_project_0               class:    project_caps
@@ -1767,10 +1767,10 @@ name:   cpucaps_project_0               class:    project_caps
         snaptime                        235885.638714404
         usage                           7
         value                           18446743151372347932
-        zonename                        test_001
+        jailname                        test_001
 
 module: caps                            instance: 1
-name:   cpucaps_zone_1                  class:    zone_caps
+name:   cpucaps_jail_1                  class:    jail_caps
         above_sec                       2
         below_sec                       10524
         crtime                          225360.256440278
@@ -1779,18 +1779,18 @@ name:   cpucaps_zone_1                  class:    zone_caps
         snaptime                        235885.638896443
         usage                           7
         value                           100
-        zonename                        test_001
+        jailname                        test_001
 .fi
 .in -2
 .sp
 
 .LP
-\fBExample 11 \fRDisplaying CPU Caps for a Specific Zone or Project
+\fBExample 11 \fRDisplaying CPU Caps for a Specific Jail or Project
 .sp
 .LP
 Using the \fBkstat\fR \fB-c\fR and \fB-i\fR options, you can display CPU caps
-for a specific zone or project, as below. The first command produces a display
-for a specific project, the second for the same project within zone 1.
+for a specific jail or project, as below. The first command produces a display
+for a specific project, the second for the same project within jail 1.
 
 .sp
 .in +2
@@ -1858,15 +1858,15 @@ Interface Stability	Volatile
 \fBppriv\fR(1), \fBprctl\fR(1), \fBzlogin\fR(1), \fBkstat\fR(1M),
 \fBmount\fR(1M), \fBpooladm\fR(1M), \fBpoolcfg\fR(1M), \fBpoold\fR(1M),
 \fBrcapd\fR(1M), \fBrctladm\fR(1M), \fBsvcadm\fR(1M), \fBsysidtool\fR(1M),
-\fBzfs\fR(1M), \fBzoneadm\fR(1M), \fBpriv_str_to_set\fR(3C),
+\fBzfs\fR(1M), \fBjailadm\fR(1M), \fBpriv_str_to_set\fR(3C),
 \fBkstat\fR(3KSTAT), \fBvfstab\fR(4), \fBattributes\fR(5), \fBbrands\fR(5),
 \fBfnmatch\fR(5), \fBlx\fR(5), \fBprivileges\fR(5), \fBresource_controls\fR(5),
-\fBzones\fR(5)
+\fBjails\fR(5)
 .sp
 .LP
 \fISystem Administration Guide: Solaris Containers-Resource Management, and
-Solaris Zones\fR
+Solaris Jails\fR
 .SH NOTES
 .sp
 .LP
-All character data used by \fBzonecfg\fR must be in US-ASCII encoding.
+All character data used by \fBjailcfg\fR must be in US-ASCII encoding.

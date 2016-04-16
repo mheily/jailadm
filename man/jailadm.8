@@ -4,35 +4,35 @@
 .\" The contents of this file are subject to the terms of the Common Development and Distribution License (the "License").  You may not use this file except in compliance with the License.
 .\" You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE or http://www.opensolaris.org/os/licensing.  See the License for the specific language governing permissions and limitations under the License.
 .\" When distributing Covered Code, include this CDDL HEADER in each file and include the License file at usr/src/OPENSOLARIS.LICENSE.  If applicable, add the following below this CDDL HEADER, with the fields enclosed by brackets "[]" replaced with your own identifying information: Portions Copyright [yyyy] [name of copyright owner]
-.TH ZONEADM 1M "Sep 8, 2015"
+.TH JAILADM 1M "Sep 8, 2015"
 .SH NAME
-zoneadm \- administer zones
+jailadm \- administer jails
 .SH SYNOPSIS
 .LP
 .nf
-\fBzoneadm\fR \fB-z\fR \fIzonename\fR [\fB-u\fR \fIuuid-match\fR] \fIsubcommand\fR
+\fBjailadm\fR \fB-z\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] \fIsubcommand\fR
      [\fIsubcommand_options\fR]
 .fi
 
 .LP
 .nf
-\fBzoneadm\fR [\fB-R\fR \fIroot\fR] [\fB-z\fR \fIzonename\fR] [\fB-u\fR \fIuuid-match\fR] list
+\fBjailadm\fR [\fB-R\fR \fIroot\fR] [\fB-z\fR \fIjailname\fR] [\fB-u\fR \fIuuid-match\fR] list
      [\fIlist_options\fR]
 .fi
 
 .LP
 .nf
-\fBzoneadm\fR [\fB-R\fR \fIroot\fR] \fB-z\fR \fIzonename\fR [\fB-u\fR \fIuuid-match\fR] mark incomplete
+\fBjailadm\fR [\fB-R\fR \fIroot\fR] \fB-z\fR \fIjailname\fR [\fB-u\fR \fIuuid-match\fR] mark incomplete
 .fi
 
 .SH DESCRIPTION
 .LP
-The \fBzoneadm\fR utility is used to administer system zones. A zone is an
+The \fBjailadm\fR utility is used to administer system jails. A jail is an
 application container that is maintained by the operating system runtime.
 .SH SECURITY
 .LP
-Once a process has been placed in a zone other than zone \fB0\fR, the process
-or any of its children cannot change zones.
+Once a process has been placed in a jail other than jail \fB0\fR, the process
+or any of its children cannot change jails.
 .SH OPTIONS
 .LP
 The following options are supported:
@@ -54,20 +54,20 @@ conjunction with the "\fBlist\fR" and "\fBmark\fR" subcommands.
 .ad
 .sp .6
 .RS 4n
-Unique identifier for a zone, as assigned by \fBlibuuid\fR(3LIB). If this
-option is present and the argument is a non-empty string, then the zone
+Unique identifier for a jail, as assigned by \fBlibuuid\fR(3LIB). If this
+option is present and the argument is a non-empty string, then the jail
 matching the \fBUUID\fR is selected instead of the one named by the \fB-z\fR
-option, if such a zone is present.
+option, if such a jail is present.
 .RE
 
 .sp
 .ne 2
 .na
-\fB\fB-z\fR \fIzonename\fR\fR
+\fB\fB-z\fR \fIjailname\fR\fR
 .ad
 .sp .6
 .RS 4n
-String identifier for a zone.
+String identifier for a jail.
 .RE
 
 .SH SUBCOMMANDS
@@ -76,9 +76,9 @@ Subcommands which can result in destructive actions or loss of work have a
 \fB-F\fR flag to force the action. If input is from a terminal device, the user
 is prompted if such a command is given without the \fB-F\fR flag; otherwise, if
 such a command is given without the \fB-F\fR flag, the action is disallowed,
-with a diagnostic message written to standard error. If a zone installation or
-uninstallation is interrupted, the zone is left in the incomplete state. Use
-uninstall to reset such a zone back to the configured state.
+with a diagnostic message written to standard error. If a jail installation or
+uninstallation is interrupted, the jail is left in the incomplete state. Use
+uninstall to reset such a jail back to the configured state.
 .sp
 .LP
 The following subcommands are supported:
@@ -90,35 +90,35 @@ options\fR]\fR
 .ad
 .sp .6
 .RS 4n
-The \fBattach\fR subcommand takes a zone that has been detached from one system
-and attaches the zone onto a new system. Therefore, it is advised (though not
+The \fBattach\fR subcommand takes a jail that has been detached from one system
+and attaches the jail onto a new system. Therefore, it is advised (though not
 required) that the \fBdetach\fR subcommand should be run before the "attach"
-takes place. Once you have the new zone in the configured state, use the
-\fBattach\fR subcommand to set up the zone root instead of installing the zone
-as a new zone.
+takes place. Once you have the new jail in the configured state, use the
+\fBattach\fR subcommand to set up the jail root instead of installing the jail
+as a new jail.
 .sp
-The \fB-F\fR option can be used to force the zone into the "installed" state
+The \fB-F\fR option can be used to force the jail into the "installed" state
 with no validation. This option should be used with care since it can leave the
-zone in an unsupportable state if it was moved from a source system to a target
-system that is unable to properly host the zone. The \fB-n\fR option can be
+jail in an unsupportable state if it was moved from a source system to a target
+system that is unable to properly host the jail. The \fB-n\fR option can be
 used to run the \fBattach\fR subcommand, without executing the command. It uses
 the output of the "\fBdetach\fR \fB-n\fR" subcommand as input and is useful to
 identify any conflicting issues, such as the network device being incompatible,
-and can also determine whether the host is capable of supporting the zone. The
+and can also determine whether the host is capable of supporting the jail. The
 path can be "\fB-\fR", to read the input from standard input.
 .sp
-The zone's brand may include additional options that govern how the zone will
+The jail's brand may include additional options that govern how the jail will
 be attached. See \fBbrands\fR(5) for specific brand information.
 .sp
-The zone being attached must first be configured using the \fBzonecfg\fR (see
-\fBzonecfg\fR(1M)) command. This does not apply when running "\fBattach\fR
+The jail being attached must first be configured using the \fBjailcfg\fR (see
+\fBjailcfg\fR(1M)) command. This does not apply when running "\fBattach\fR
 \fB-n\fR".
 .sp
-Use the following command to attach a zone:
+Use the following command to attach a jail:
 .sp
 .in +2
 .nf
-# \fBzoneadm -z my-zone attach\fR
+# \fBjailadm -z my-jail attach\fR
 .fi
 .in -2
 .sp
@@ -132,7 +132,7 @@ Use the following command to attach a zone:
 .ad
 .sp .6
 .RS 4n
-Boot (or activate) the specified zones.
+Boot (or activate) the specified jails.
 .sp
 The following \fIboot_options\fR are supported:
 .sp
@@ -181,12 +181,12 @@ milestone is equivalent to init level \fBs\fR. See \fBsvc.startd\fR(1M) and
 .ne 2
 .na
 \fB\fBclone\fR [\fB-m\fR \fIcopy\fR] [\fB-s\fR \fIzfs_snapshot\fR]
-\fIsource_zone\fR\fR
+\fIsource_jail\fR\fR
 .ad
 .sp .6
 .RS 4n
-Install a zone by copying an existing installed zone. This subcommand is an
-alternative way to install the zone.
+Install a jail by copying an existing installed jail. This subcommand is an
+alternative way to install the jail.
 .sp
 .ne 2
 .na
@@ -205,11 +205,11 @@ Force the clone to be a copy, even if a "\fBZFS\fR clone" is possible.
 .sp .6
 .RS 4n
 Specify the name of a \fBZFS\fR snapshot to use as the source of the clone. The
-\fIsnapshot\fR must be a \fIsnapshot\fR of the source zone taken from a
-previous "\fBzoneadm\fR clone" installation.
+\fIsnapshot\fR must be a \fIsnapshot\fR of the source jail taken from a
+previous "\fBjailadm\fR clone" installation.
 .RE
 
-The source zone must be halted before this subcommand can be used.
+The source jail must be halted before this subcommand can be used.
 .RE
 
 .sp
@@ -219,30 +219,30 @@ The source zone must be halted before this subcommand can be used.
 .ad
 .sp .6
 .RS 4n
-Detach the specified zone. Detaching a zone is the first step in moving a zone
-from one system to another. The full procedure to migrate a zone is that the
-zone is detached, the \fIzonepath\fR directory is moved to the new host, and
-then the zone is attached on the new host. Once the zone is detached, it is
+Detach the specified jail. Detaching a jail is the first step in moving a jail
+from one system to another. The full procedure to migrate a jail is that the
+jail is detached, the \fIjailpath\fR directory is moved to the new host, and
+then the jail is attached on the new host. Once the jail is detached, it is
 left in the configured state. If you try to install or clone to a configured
-zone that has been detached, you will receive an error message and the
+jail that has been detached, you will receive an error message and the
 \fBinstall\fR or \fBclone\fR subcommand will not be allowed to proceed. The
 \fB-n\fR option can be used to run the \fBdetach\fR subcommand, without
 executing the command. This generates the information needed for running the
 "\fBattach\fR \fB-n\fR" subcommand, which is useful to identify any conflicting
 issues, such as the network device being incompatible or if the host is capable
-of supporting the zone. The information is sent to standard output and can be
+of supporting the jail. The information is sent to standard output and can be
 saved to a file or piped to the "\fBattach\fR \fB-n\fR" subcommand.
 .sp
-Use the following command to detach a zone:
+Use the following command to detach a jail:
 .sp
 .in +2
 .nf
-# zoneadm -z my-zone detach
+# jailadm -z my-jail detach
 .fi
 .in -2
 .sp
 
-The source zone must be halted before this subcommand can be used.
+The source jail must be halted before this subcommand can be used.
 .RE
 
 .sp
@@ -252,8 +252,8 @@ The source zone must be halted before this subcommand can be used.
 .ad
 .sp .6
 .RS 4n
-Halt the specified zones. \fBhalt\fR bypasses running the shutdown scripts
-inside the zone. It also removes run time resources of the zone.
+Halt the specified jails. \fBhalt\fR bypasses running the shutdown scripts
+inside the jail. It also removes run time resources of the jail.
 .RE
 
 .sp
@@ -274,7 +274,7 @@ Display general help. If you specify \fIsubcommand\fR, displays help on
 .ad
 .sp .6
 .RS 4n
-Install the specified zone on the system. This subcommand automatically
+Install the specified jail on the system. This subcommand automatically
 attempts to verify first, most verification errors are fatal. See the
 \fBverify\fR subcommand.
 .sp
@@ -287,8 +287,8 @@ attempts to verify first, most verification errors are fatal. See the
 Do not create a \fBZFS\fR file system.
 .RE
 
-The zone's brand may include additional options that govern how the software
-will be installed in the zone. See \fBbrands\fR(5) for specific brand
+The jail's brand may include additional options that govern how the software
+will be installed in the jail. See \fBbrands\fR(5) for specific brand
 information.
 .RE
 
@@ -299,14 +299,14 @@ information.
 .ad
 .sp .6
 .RS 4n
-Display the name of the current zones, or the specified zone if indicated.
+Display the name of the current jails, or the specified jail if indicated.
 .sp
-By default, all running zones are listed. If you use this subcommand with the
-\fBzoneadm\fR \fB-z\fR \fIzonename\fR option, it lists only the specified zone,
+By default, all running jails are listed. If you use this subcommand with the
+\fBjailadm\fR \fB-z\fR \fIjailname\fR option, it lists only the specified jail,
 regardless of its state. In this case, the \fB-i\fR and \fB-c\fR options are
 disallowed.
 .sp
-If neither the \fB-i\fR or \fB-c\fR options are given, all running zones are
+If neither the \fB-i\fR or \fB-c\fR options are given, all running jails are
 listed.
 .sp
 The following \fIlist_options\fR are supported:
@@ -317,7 +317,7 @@ The following \fIlist_options\fR are supported:
 .ad
 .sp .6
 .RS 4n
-Display all configured zones. This option overides the \fB-i\fR option.
+Display all configured jails. This option overides the \fB-i\fR option.
 .RE
 
 .sp
@@ -327,7 +327,7 @@ Display all configured zones. This option overides the \fB-i\fR option.
 .ad
 .sp .6
 .RS 4n
-Expand the display to all installed zones.
+Expand the display to all installed jails.
 .RE
 
 .sp
@@ -338,25 +338,25 @@ Expand the display to all installed zones.
 .sp .6
 .RS 4n
 Request machine parsable output. The output format is a list of lines, one per
-zone, with colon- delimited fields. These fields are:
+jail, with colon- delimited fields. These fields are:
 .sp
 .in +2
 .nf
-zoneid:zonename:state:zonepath:uuid:brand:ip-type
+jailid:jailname:state:jailpath:uuid:brand:ip-type
 .fi
 .in -2
 .sp
 
-If the \fBzonepath\fR contains embedded colons, they can be escaped by a
+If the \fBjailpath\fR contains embedded colons, they can be escaped by a
 backslash ("\:"), which is parsable by using the shell \fBread\fR(1) function
 with the environmental variable \fBIFS\fR. The \fIuuid\fR value is assigned by
-\fBlibuuid\fR(3LIB) when the zone is installed, and is useful for identifying
-the same zone when present (or renamed) on alternate boot environments. Any
-software that parses the output of the "\fBzoneadm list -p\fR" command must be
+\fBlibuuid\fR(3LIB) when the jail is installed, and is useful for identifying
+the same jail when present (or renamed) on alternate boot environments. Any
+software that parses the output of the "\fBjailadm list -p\fR" command must be
 able to handle any fields that may be added in the future.
 .sp
 The \fB-v\fR and \fB-p\fR options are mutually exclusive. If neither \fB-v\fR
-nor \fB-p\fR is used, just the zone name is listed.
+nor \fB-p\fR is used, just the jail name is listed.
 .RE
 
 .sp
@@ -366,11 +366,11 @@ nor \fB-p\fR is used, just the zone name is listed.
 .ad
 .sp .6
 .RS 4n
-Display verbose information, including zone name, id, current state, root
+Display verbose information, including jail name, id, current state, root
 directory, brand type, ip-type, and options.
 .sp
 The \fB-v\fR and \fB-p\fR options are mutually exclusive. If neither \fB-v\fR
-nor \fB-p\fR is used, just the zone name is listed.
+nor \fB-p\fR is used, just the jail name is listed.
 .RE
 
 .RE
@@ -382,22 +382,22 @@ nor \fB-p\fR is used, just the zone name is listed.
 .ad
 .sp .6
 .RS 4n
-Change the state of an installed zone to "incomplete." This command may be
-useful in cases where administrative changes on the system have rendered a zone
+Change the state of an installed jail to "incomplete." This command may be
+useful in cases where administrative changes on the system have rendered a jail
 unusable or inconsistent. This change cannot be undone (except by uninstalling
-the zone).
+the jail).
 .RE
 
 .sp
 .ne 2
 .na
-\fB\fBmove\fR \fInew_zonepath\fR\fR
+\fB\fBmove\fR \fInew_jailpath\fR\fR
 .ad
 .sp .6
 .RS 4n
-Move the \fIzonepath\fR to \fInew_zonepath\fR. The zone must be halted before
-this subcommand can be used. The \fInew_zonepath\fR must be a local file system
-and normal restrictions for \fIzonepath\fR apply.
+Move the \fIjailpath\fR to \fInew_jailpath\fR. The jail must be halted before
+this subcommand can be used. The \fInew_jailpath\fR must be a local file system
+and normal restrictions for \fIjailpath\fR apply.
 .RE
 
 .sp
@@ -407,8 +407,8 @@ and normal restrictions for \fIzonepath\fR apply.
 .ad
 .sp .6
 .RS 4n
-Prepares a zone for running applications but does not start any user processes
-in the zone.
+Prepares a jail for running applications but does not start any user processes
+in the jail.
 .RE
 
 .sp
@@ -418,8 +418,8 @@ in the zone.
 .ad
 .sp .6
 .RS 4n
-Restart the zones. This is equivalent to a \fBhalt\fR \fBboot\fR sequence. This
-subcommand fails if the specified zones are not active. See \fIboot\fR subcommand
+Restart the jails. This is equivalent to a \fBhalt\fR \fBboot\fR sequence. This
+subcommand fails if the specified jails are not active. See \fIboot\fR subcommand
 for the boot options.
 .RE
 
@@ -430,10 +430,10 @@ for the boot options.
 .ad
 .sp .6
 .RS 4n
-Gracefully shutdown the specified zone. This subcommand waits for all zone
+Gracefully shutdown the specified jail. This subcommand waits for all jail
 processes to finish; the default timeout is SCF_PROPERTY_TIMEOUT value from
-the SMF service system/zones. If the \fB-r\fR option is specified, reboot the
-zone. See \fIboot\fR subcommand for the boot options.
+the SMF service system/jails. If the \fB-r\fR option is specified, reboot the
+jail. See \fIboot\fR subcommand for the boot options.
 .RE
 
 .sp
@@ -443,8 +443,8 @@ zone. See \fIboot\fR subcommand for the boot options.
 .ad
 .sp .6
 .RS 4n
-Uninstall the specified zone from the system. Use this subcommand with caution.
-It removes all of the files under the \fIzonepath\fR of the zone in question.
+Uninstall the specified jail from the system. Use this subcommand with caution.
+It removes all of the files under the \fIjailpath\fR of the jail in question.
 You can use the \fB-F\fR flag to force the action.
 .RE
 
@@ -455,28 +455,28 @@ You can use the \fB-F\fR flag to force the action.
 .ad
 .sp .6
 .RS 4n
-Check to make sure the configuration of the specified zone can safely be
+Check to make sure the configuration of the specified jail can safely be
 installed on the machine. Following is a break-down of the checks by
 \fBresource/property\fR type:
 .sp
 .ne 2
 .na
-\fB\fBzonepath\fR\fR
+\fB\fBjailpath\fR\fR
 .ad
 .sp .6
 .RS 4n
-\fBzonepath\fR and its parent directory exist and are owned by root with
-appropriate modes . The appropriate modes are that \fBzonepath\fR is \fB700\fR,
+\fBjailpath\fR and its parent directory exist and are owned by root with
+appropriate modes . The appropriate modes are that \fBjailpath\fR is \fB700\fR,
 its parent is not \fBgroup\fR or \fBworld-writable\fR and so forth.
-\fBzonepath\fR is not over an NFS mount. A sub-directory of the \fBzonepath\fR
+\fBjailpath\fR is not over an NFS mount. A sub-directory of the \fBjailpath\fR
 named "root" does not exist.
 .sp
-If \fBzonepath\fR does not exist, the \fBverify\fR does not fail, but merely
+If \fBjailpath\fR does not exist, the \fBverify\fR does not fail, but merely
 warns that a subsequent install will attempt to create it with proper
 permissions. A \fBverify\fR subsequent to that might fail should anything go
 wrong.
 .sp
-\fBzonepath\fR cannot be a symbolic link.
+\fBjailpath\fR cannot be a symbolic link.
 .RE
 
 .sp
@@ -530,9 +530,9 @@ Note that hostnames that resolve to IPv6 addresses are not supported.
 .sp
 The physical interface name is the network interface name.
 .sp
-A zone can be configured to be either exclusive-IP or shared-IP. For a
-shared-IP zone, both the physical and address properties must be set. For an
-exclusive-IP zone, the physical property must be set and the address property
+A jail can be configured to be either exclusive-IP or shared-IP. For a
+shared-IP jail, both the physical and address properties must be set. For an
+exclusive-IP jail, the physical property must be set and the address property
 cannot be set.
 .RE
 
@@ -561,7 +561,7 @@ The following command illustrates the use of the \fB-m\fR option.
 .sp
 .in +2
 .nf
-# \fBzoneadm boot -- -m verbose\fR
+# \fBjailadm boot -- -m verbose\fR
 .fi
 .in -2
 .sp
@@ -575,7 +575,7 @@ The following command illustrates the use of the \fB-i\fR option.
 .sp
 .in +2
 .nf
-# \fBzoneadm boot -- -i /sbin/init\fR
+# \fBjailadm boot -- -i /sbin/init\fR
 .fi
 .in -2
 .sp
@@ -589,7 +589,7 @@ The following command illustrates the use of the \fB-s\fR option.
 .sp
 .in +2
 .nf
-# \fBzoneadm boot -- -s\fR
+# \fBjailadm boot -- -s\fR
 .fi
 .in -2
 .sp
@@ -644,19 +644,19 @@ Interface Stability	Committed
 
 .SH SEE ALSO
 .LP
-\fBread\fR(1), \fBsvcs\fR(1), \fBzlogin\fR(1), \fBzonename\fR(1),
+\fBread\fR(1), \fBsvcs\fR(1), \fBzlogin\fR(1), \fBjailname\fR(1),
 \fBinit\fR(1M), \fBkernel\fR(1M), \fBsvcadm\fR(1M), \fBsvc.startd\fR(1M),
-\fBsvc.startd\fR(1M), \fBzonecfg\fR(1M), \fBlibuuid\fR(3LIB),
+\fBsvc.startd\fR(1M), \fBjailcfg\fR(1M), \fBlibuuid\fR(3LIB),
 \fBattributes\fR(5), \fBbrands\fR(5), \fBnative\fR(5), \fBsmf\fR(5),
-\fBzones\fR(5)
+\fBjails\fR(5)
 .SH NOTES
 .LP
-The \fBzones\fR(5) service is managed by the service management facility,
+The \fBjails\fR(5) service is managed by the service management facility,
 \fBsmf\fR(5), under the service identifier:
 .sp
 .in +2
 .nf
-svc:/system/zones:default
+svc:/system/jails:default
 .fi
 .in -2
 .sp
@@ -668,11 +668,11 @@ requesting restart, can be performed using \fBsvcadm\fR(1M). The service's
 status can be queried using the \fBsvcs\fR(1) command.
 .sp
 .LP
-The act of installing a new non-global zone is a fresh installation of the
+The act of installing a new non-global jail is a fresh installation of the
 Solaris operating system. A new installation of Solaris must not require
 interaction with the user (that is, it must be "hands off"). Because of this,
-packages installed in the global zone and all non-global zones cannot contain
+packages installed in the global jail and all non-global jails cannot contain
 request scripts (see \fBpkgask\fR(1M)). If a package did have a request script,
-then the creation of a non-global zone could not be done without user
+then the creation of a non-global jail could not be done without user
 intervention. Any package that contains a request script is added to the global
-zone only. See \fBpkgadd\fR(1M).
+jail only. See \fBpkgadd\fR(1M).
