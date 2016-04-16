@@ -19,4 +19,7 @@
 
 package 'jailadm' '0.0.1'
 
+manpage 'man/jailadm.8'
+manpage 'man/jailcfg.8'
+
 write_makefile

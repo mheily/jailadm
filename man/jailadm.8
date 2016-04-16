@@ -28,11 +28,11 @@ jailadm \- administer jails
 
 .SH DESCRIPTION
 .LP
-The \fBjailadm\fR utility is used to administer system jails. A jail is an
+The \fBjailadm\fR utility is used to administer jails. A jail is an
 application container that is maintained by the operating system runtime.
 .SH SECURITY
 .LP
-Once a process has been placed in a jail other than jail \fB0\fR, the process
+Once a process has been placed in a jail, the process
 or any of its children cannot change jails.
 .SH OPTIONS
 .LP
@@ -148,33 +148,6 @@ a valid path to an executable. The default primordial process is
 \fBinit\fR(1M).
 .RE
 
-.sp
-.ne 2
-.na
-\fB\fB-m\fR \fIsmf_options\fR\fR
-.ad
-.sp .6
-.RS 4n
-The \fIsmf_options\fR include two categories of options to control booting
-behavior of the service management facility: recovery options and messages
-options.
-.sp
-Message options determine the type and amount of messages that \fBsmf\fR(5)
-displays during boot. Service options determine the services which are used to
-boot the system. See \fBkernel\fR(1M) for a listing of the \fB-m\fR suboptions.
-.RE
-
-.sp
-.ne 2
-.na
-\fB\fB-s\fR\fR
-.ad
-.sp .6
-.RS 4n
-Boots only to milestone \fBsvc:/milestone/single-user:default\fR. This
-milestone is equivalent to init level \fBs\fR. See \fBsvc.startd\fR(1M) and
-\fBinit\fR(1M).
-.RE
 
 .RE
 

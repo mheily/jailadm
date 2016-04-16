@@ -955,9 +955,7 @@ file of \fBjailcfg\fR subcommands, one per line.
 .RS 4n
 Specify the name of a jail. Jail names are case sensitive. Jail names must
 begin with an alphanumeric character and can contain alphanumeric characters,
-the underscore (\fB_\fR) the hyphen (\fB-\fR), and the dot (\fB\&.\fR). The
-name \fBglobal\fR and all names beginning with \fBSUNW\fR are reserved and
-cannot be used.
+the underscore (\fB_\fR) the hyphen (\fB-\fR), and the dot (\fB\&.\fR).
 .RE
 
 .SH SUBCOMMANDS
@@ -1068,7 +1066,7 @@ Use the \fB-a\fR \fIpath\fR option to facilitate configuring a detached jail on
 a new host. The \fIpath\fR parameter is the jailpath location of a detached
 jail that has been moved on to this new host. Once the detached jail is
 configured, it should be installed using the "\fBjailadm attach\fR" command
-(see \fBjailadm\fR(1M)). All validation of the new jail happens during the
+(see \fBjailadm\fR(8)). All validation of the new jail happens during the
 \fBattach\fR process, not during jail configuration.
 .sp
 Use the \fB-b\fR option to create a blank configuration. Without arguments,
@@ -1320,11 +1318,6 @@ jailcfg:lxjail> \fBexit\fR
 The following example creates a jail that is granted exclusive access to
 \fBbge1\fR and \fBbge33000\fR and that is isolated at the IP layer from the
 other jails configured on the system.
-
-.sp
-.LP
-The IP addresses and routing is configured inside the new jail using
-\fBsysidtool\fR(1M).
 
 .sp
 .in +2
