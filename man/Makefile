@@ -15,13 +15,19 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #
 
-. ./config.sub
+all: jailadm.8.html jailcfg.8.html jailadm.8.txt jailcfg.8.txt
 
-package 'jailadm' '0.0.1'
+jailadm.8.html: jailadm.8
+	man2html < `echo $* | sed 's/\.html//'` > $*
 
-manpage 'man/jailadm.8'
-manpage 'man/jailcfg.8'
+jailadm.8.txt: jailadm.8
+	man ./jailadm.8 > jailadm.8.txt
 
-test -e man/jailadm.8.html || 
-zcat /usr/share/man/man1/man.1.gz  | groff -mandoc -Thtml
-write_makefile
+jailcfg.8.html: jailcfg.8
+	man2html < `echo $* | sed 's/\.html//'` > $*
+
+jailcfg.8.txt: jailcfg.8
+	man ./jailcfg.8 > jailcfg.8.txt
+
+clean:
+	rm -f *.html *.txt

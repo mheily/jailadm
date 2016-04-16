@@ -1,0 +1,1187 @@
+JAILCFG(8)              FreeBSD System Manager's Manual             JAILCFG(8)
+
+
+
+NNAAMMEE
+       jailcfg - set up jail configuration
+
+SSYYNNOOPPSSIISS
+       jjaaiillccffgg --jj _j_a_i_l_n_a_m_e
+
+
+       jjaaiillccffgg --jj _j_a_i_l_n_a_m_e _s_u_b_c_o_m_m_a_n_d
+
+
+       jjaaiillccffgg --jj _j_a_i_l_n_a_m_e --ff _c_o_m_m_a_n_d___f_i_l_e
+
+
+       jjaaiillccffgg help
+
+
+DDEESSCCRRIIPPTTIIOONN
+       The jjaaiillccffgg utility creates and modifies the configuration of a jail.
+       Jail configuration consists of a number of resources and properties.
+
+
+       To simplify the user interface, jjaaiillccffgg uses the concept of a scope.
+       The default scope is global.
+
+
+       The following synopsis of the jjaaiillccffgg command is for interactive usage:
+
+         jailcfg --jj _j_a_i_l_n_a_m_e _s_u_b_c_o_m_m_a_n_d
+
+
+
+
+       Parameters changed through jjaaiillccffgg do not affect a running jail. The
+       jail must be rebooted for the changes to take effect.
+
+
+       In addition to creating and modifying a jail, the jjaaiillccffgg utility can
+       also be used to persistently specify the resource management settings
+       for the global jail.
+
+
+       In the following text, "rctl" is used as an abbreviation for "resource
+       control". See rreessoouurrccee__ccoonnttrroollss(5).
+
+
+       Every jail is configured with an associated brand. The brand determines
+       the user-level environment used within the jail, as well as various
+       behaviors for the jail when it is installed, boots, or is shutdown.
+       Once a jail has been installed the brand cannot be changed. The default
+       brand is determined by the installed distribution in the global jail.
+       Some brands do not support all of the jjaaiillccffgg properties and resources.
+       See the brand-specific man page for more details on each brand. For an
+       overview of brands, see the bbrraannddss(5) man page.
+
+   RReessoouurrcceess
+       The following resource types are supported:
+
+       aattttrr
+
+           Generic attribute.
+
+
+       ccaappppeedd--ccppuu
+
+           Limits for CPU usage.
+
+
+       ccaappppeedd--mmeemmoorryy
+
+           Limits for physical, swap, and locked memory.
+
+
+       ddaattaasseett
+
+           ZZFFSS dataset.
+
+
+       ddeeddiiccaatteedd--ccppuu
+
+           Subset of the system's processors dedicated to this jail while it
+           is running.
+
+
+       ddeevviiccee
+
+           Device.
+
+
+       ffss
+
+           file-system
+
+
+       nneett
+
+           Network interface.
+
+
+       rrccttll
+
+           Resource control.
+
+
+   PPrrooppeerrttiieess
+       Each resource type has one or more properties. There are also some
+       global properties, that is, properties of the configuration as a whole,
+       rather than of some particular resource.
+
+
+       The following properties are supported:
+
+       ((gglloobbaall))
+
+           jjaaiillnnaammee
+
+
+       ((gglloobbaall))
+
+           jjaaiillppaatthh
+
+
+       ((gglloobbaall))
+
+           aauuttoobboooott
+
+
+       ((gglloobbaall))
+
+           bboooottaarrggss
+
+
+       ((gglloobbaall))
+
+           ppooooll
+
+
+       ((gglloobbaall))
+
+           lliimmiittpprriivv
+
+
+       ((gglloobbaall))
+
+           bbrraanndd
+
+
+       ((gglloobbaall))
+
+           ccppuu--sshhaarreess
+
+
+       ((gglloobbaall))
+
+           hhoossttiidd
+
+
+       ((gglloobbaall))
+
+           mmaaxx--llwwppss
+
+
+       ((gglloobbaall))
+
+           mmaaxx--mmssgg--iiddss
+
+
+       ((gglloobbaall))
+
+           mmaaxx--sseemm--iiddss
+
+
+       ((gglloobbaall))
+
+           mmaaxx--sshhmm--iiddss
+
+
+       ((gglloobbaall))
+
+           mmaaxx--sshhmm--mmeemmoorryy
+
+
+       ((gglloobbaall))
+
+           sscchheedduulliinngg--ccllaassss
+
+
+       ((gglloobbaall))
+
+           ffss--aalllloowweedd
+
+
+       ffss
+
+           ddiirr, ssppeecciiaall, rraaww, ttyyppee, ooppttiioonnss
+
+
+       nneett
+
+           aaddddrreessss, pphhyyssiiccaall, ddeeffrroouutteerr
+
+
+       ddeevviiccee
+
+           mmaattcchh
+
+
+       rrccttll
+
+           nnaammee, vvaalluuee
+
+
+       aattttrr
+
+           nnaammee, ttyyppee, vvaalluuee
+
+
+       ddaattaasseett
+
+           nnaammee
+
+
+       ddeeddiiccaatteedd--ccppuu
+
+           nnccppuuss, iimmppoorrttaannccee
+
+
+       ccaappppeedd--mmeemmoorryy
+
+           pphhyyssiiccaall, sswwaapp, lloocckkeedd
+
+
+       ccaappppeedd--ccppuu
+
+           nnccppuuss
+
+
+
+       As for the property values which are paired with these names, they are
+       either simple, complex, or lists. The type allowed is property-
+       specific. Simple values are strings, optionally enclosed within
+       quotation marks. Complex values have the syntax:
+
+         (<_n_a_m_e>=<_v_a_l_u_e>,<_n_a_m_e>=<_v_a_l_u_e>,...)
+
+
+
+
+       where each <_v_a_l_u_e> is simple, and the <_n_a_m_e> strings are unique within
+       a given property. Lists have the syntax:
+
+         [<_v_a_l_u_e>,...]
+
+
+
+
+       where each <_v_a_l_u_e> is either simple or complex. A list of a single
+       value (either simple or complex) is equivalent to specifying that value
+       without the list syntax. That is, "foo" is equivalent to "[foo]". A
+       list can be empty (denoted by "[]").
+
+
+       In interpreting property values, jjaaiillccffgg accepts regular expressions as
+       specified in ffnnmmaattcchh(5). See EEXXAAMMPPLLEESS.
+
+
+       The property types are described as follows:
+
+       gglloobbaall:: jjaaiillnnaammee
+
+           The name of the jail.
+
+
+       gglloobbaall:: jjaaiillppaatthh
+
+           Path to jail's file system.
+
+
+       gglloobbaall:: aauuttoobboooott
+
+           Boolean indicating that a jail should be booted automatically at
+           system boot.
+
+
+       gglloobbaall:: bboooottaarrggss
+
+           Arguments (options) to be passed to the jail bootup, unless options
+           are supplied to the "jjaaiillaaddmm bboooott" command, in which case those
+           take precedence. The valid arguments are described in jjaaiillaaddmm(8).
+
+
+       gglloobbaall:: ppooooll
+
+           Name of the resource pool that this jail must be bound to when
+           booted. This property is incompatible with the ddeeddiiccaatteedd--ccppuu
+           resource.
+
+
+       gglloobbaall:: lliimmiittpprriivv
+
+           The maximum set of privileges any process in this jail can obtain.
+           The property should consist of a comma-separated privilege set
+           specification as described in pprriivv__ssttrr__ttoo__sseett(3C). Privileges can
+           be excluded from the resulting set by preceding their names with a
+           dash (-) or an exclamation point (!). The special privilege string
+           "jail" is not supported in this context. If the special string
+           "default" occurs as the first token in the property, it expands
+           into a safe set of privileges that preserve the resource and
+           security isolation described in jjaaiillss(5). A missing or empty
+           property is equivalent to this same set of safe privileges.
+
+           The system administrator must take extreme care when configuring
+           privileges for a jail. Some privileges cannot be excluded through
+           this mechanism as they are required in order to boot a jail. In
+           addition, there are certain privileges which cannot be given to a
+           jail as doing so would allow processes inside a jail to unduly
+           affect processes in other jails. jjaaiillaaddmm(1M) indicates when an
+           invalid privilege has been added or removed from a jail's privilege
+           set when an attempt is made to either "boot" or "ready" the jail.
+
+           See pprriivviilleeggeess(5) for a description of privileges. The command
+           "pppprriivv --ll" (see pppprriivv(1)) produces a list of all Solaris
+           privileges. You can specify privileges as they are displayed by
+           pppprriivv. In pprriivviilleeggeess(5), privileges are listed in the form
+           PRIV__p_r_i_v_i_l_e_g_e___n_a_m_e. For example, the privilege _s_y_s___t_i_m_e, as you
+           would specify it in this property, is listed in pprriivviilleeggeess(5) as
+           PPRRIIVV__SSYYSS__TTIIMMEE.
+
+
+       gglloobbaall:: bbrraanndd
+
+           The jail's brand type.
+
+
+       gglloobbaall:: iipp--ttyyppee
+
+           A jail can either share the IP instance with the global jail, which
+           is the default, or have its own exclusive instance of IP.
+
+           This property takes the values sshhaarreedd and eexxcclluussiivvee.
+
+
+       gglloobbaall:: hhoossttiidd
+
+           A jail can emulate a 32-bit host identifier to ease system
+           consolidation. A jail's hhoossttiidd property is empty by default,
+           meaning that the jail does not emulate a host identifier. Jail host
+           identifiers must be hexadecimal values between 0 and FFFFFFFE. A 00xx
+           or 00XX prefix is optional. Both uppercase and lowercase hexadecimal
+           digits are acceptable.
+
+
+       ffss: dir, special, raw, type, options
+
+           Values needed to determine how, where, and so forth to mount file
+           systems. See mmoouunntt(1M), mmoouunntt(2), ffsscckk(1M), and vvffssttaabb(4).
+
+
+       nneett: address, physical, defrouter
+
+           The network address and physical interface name of the network
+           interface. The network address is one of:
+
+               o      a valid IPv4 address, optionally followed by "//" and a
+                      prefix length;
+
+               o      a valid IPv6 address, which must be followed by "//" and
+                      a prefix length;
+
+               o      a host name which resolves to an IPv4 address.
+           Note that host names that resolve to IPv6 addresses are not
+           supported.
+
+           The physical interface name is the network interface name.
+
+           The default router is specified similarly to the network address
+           except that it must not be followed by a // (slash) and a network
+           prefix length.
+
+           A jail can be configured to be either exclusive-IP or shared-IP.
+           For a shared-IP jail, you must set both the physical and address
+           properties; setting the default router is optional. The interface
+           specified in the physical property must be plumbed in the global
+           jail prior to booting the non-global jail. However, if the
+           interface is not used by the global jail, it should be configured
+           ddoowwnn in the global jail, and the default router for the interface
+           should be specified here.
+
+           For an exclusive-IP jail, the physical property must be set and the
+           address and default router properties cannot be set.
+
+
+       ddeevviiccee: match
+
+           Device name to match.
+
+
+       rrccttll: name, value
+
+           The name and _p_r_i_v/_l_i_m_i_t/_a_c_t_i_o_n triple of a resource control.  See
+           pprrccttll(1) and rrccttllaaddmm(1M). The preferred way to set rctl values is
+           to use the global property name associated with a specific rctl.
+
+
+       aattttrr: name, type, value
+
+           The name, type and value of a generic attribute. The ttyyppee must be
+           one of iinntt, uuiinntt, bboooolleeaann or ssttrriinngg, and the value must be of that
+           type. uuiinntt means unsigned , that is, a non-negative integer.
+
+
+       ddaattaasseett: name
+
+           The name of a ZZFFSS dataset to be accessed from within the jail. See
+           zzffss(1M).
+
+
+       gglloobbaall:: ccppuu--sshhaarreess
+
+           The number of Fair Share Scheduler (FSS) shares to allocate to this
+           jail. This property is incompatible with the ddeeddiiccaatteedd--ccppuu
+           resource. This property is the preferred way to set the jjaaiill..ccppuu--
+           sshhaarreess rctl.
+
+
+       gglloobbaall:: mmaaxx--llwwppss
+
+           The maximum number of LWPs simultaneously available to this jail.
+           This property is the preferred way to set the jjaaiill..mmaaxx--llwwppss rctl.
+
+
+       gglloobbaall:: mmaaxx--mmssgg--iiddss
+
+           The maximum number of message queue IDs allowed for this jail. This
+           property is the preferred way to set the jjaaiill..mmaaxx--mmssgg--iiddss rctl.
+
+
+       gglloobbaall:: mmaaxx--sseemm--iiddss
+
+           The maximum number of semaphore IDs allowed for this jail. This
+           property is the preferred way to set the jjaaiill..mmaaxx--sseemm--iiddss rctl.
+
+
+       gglloobbaall:: mmaaxx--sshhmm--iiddss
+
+           The maximum number of shared memory IDs allowed for this jail. This
+           property is the preferred way to set the jjaaiill..mmaaxx--sshhmm--iiddss rctl.
+
+
+       gglloobbaall:: mmaaxx--sshhmm--mmeemmoorryy
+
+           The maximum amount of shared memory allowed for this jail. This
+           property is the preferred way to set the jjaaiill..mmaaxx--sshhmm--mmeemmoorryy rctl.
+           A scale (K, M, G, T) can be applied to the value for this number
+           (for example, 1M is one megabyte).
+
+
+       gglloobbaall:: sscchheedduulliinngg--ccllaassss
+
+           Specifies the scheduling class used for processes running in a
+           jail. When this property is not specified, the scheduling class is
+           established as follows:
+
+               o      If the ccppuu--sshhaarreess property or equivalent rctl is set,
+                      the scheduling class FSS is used.
+
+               o      If neither ccppuu--sshhaarreess nor the equivalent rctl is set and
+                      the jail's pool property references a pool that has a
+                      default scheduling class, that class is used.
+
+               o      Under any other conditions, the system default
+                      scheduling class is used.
+
+
+
+
+       ddeeddiiccaatteedd--ccppuu: ncpus, importance
+
+           The number of CPUs that should be assigned for this jail's
+           exclusive use. The jail will create a pool and processor set when
+           it boots. See ppoooollaaddmm(1M) and ppoooollccffgg(1M) for more information on
+           resource pools. The nnccppuu property can specify a single value or a
+           range (for example, 1-4) of processors. The iimmppoorrttaannccee property is
+           optional; if set, it will specify the ppsseett..iimmppoorrttaannccee value for use
+           by ppoooolldd(1M). If this resource is used, there must be enough free
+           processors to allocate to this jail when it boots or the jail will
+           not boot. The processors assigned to this jail will not be
+           available for the use of the global jail or other jails. This
+           resource is incompatible with both the ppooooll and ccppuu--sshhaarreess
+           properties. Only a single instance of this resource can be added to
+           the jail.
+
+
+       ccaappppeedd--mmeemmoorryy: physical, swap, locked
+
+           The caps on the memory that can be used by this jail. A scale (K,
+           M, G, T) can be applied to the value for each of these numbers (for
+           example, 1M is one megabyte). Each of these properties is optional
+           but at least one property must be set when adding this resource.
+           Only a single instance of this resource can be added to the jail.
+           The pphhyyssiiccaall property sets the mmaaxx--rrssss for this jail. This will be
+           enforced by rrccaappdd(1M) running in the global jail.  The sswwaapp
+           property is the preferred way to set the jjaaiill..mmaaxx--sswwaapp rctl. The
+           lloocckkeedd property is the preferred way to set the jjaaiill..mmaaxx--lloocckkeedd--
+           mmeemmoorryy rctl.
+
+
+       ccaappppeedd--ccppuu: ncpus
+
+           Sets a limit on the amount of CPU time that can be used by a jail.
+           The unit used translates to the percentage of a single CPU that can
+           be used by all user threads in a jail, expressed as a fraction (for
+           example, ..7755) or a mixed number (whole number and fraction, for
+           example, 11..2255). An nnccppuu value of 11 means 100% of a CPU, a value of
+           11..2255 means 125%, ..7755 mean 75%, and so forth. When projects within a
+           capped jail have their own caps, the minimum value takes
+           precedence.
+
+           The ccaappppeedd--ccppuu property is an alias for jjaaiill..ccppuu--ccaapp resource
+           control and is related to the jjaaiill..ccppuu--ccaapp resource control. See
+           rreessoouurrccee__ccoonnttrroollss(5).
+
+
+       gglloobbaall:: ffss--aalllloowweedd
+
+           A comma-separated list of additional filesystems that may be
+           mounted within the jail; for example "ufs,pcfs". By default, only
+           hsfs(7fs) and network filesystems can be mounted. If the first
+           entry in the list is "-" then that disables all of the default
+           filesystems. If any filesystems are listed after "-" then only
+           those filesystems can be mounted.
+
+           This property does not apply to filesystems mounted into the jail
+           via "add fs" or "add dataset".
+
+           WARNING: allowing filesystem mounts other than the default may
+           allow the jail administrator to compromise the system with a
+           malicious filesystem image, and is not supported.
+
+
+
+       The following table summarizes resources, property-names, and types:
+
+         resource          property-name   type
+         (global)          jailname        simple
+         (global)          jailpath        simple
+         (global)          autoboot        simple
+         (global)          bootargs        simple
+         (global)          pool            simple
+         (global)          limitpriv       simple
+         (global)          brand           simple
+         (global)          ip-type         simple
+         (global)          hostid          simple
+         (global)          cpu-shares      simple
+         (global)          max-lwps        simple
+         (global)          max-msg-ids     simple
+         (global)          max-sem-ids     simple
+         (global)          max-shm-ids     simple
+         (global)          max-shm-memory  simple
+         (global)          scheduling-class simple
+         fs                dir             simple
+                            special         simple
+                            raw             simple
+                            type            simple
+                            options         list of simple
+         net               address         simple
+                            physical        simple
+         device            match           simple
+         rctl              name            simple
+                            value           list of complex
+         attr              name            simple
+                            type            simple
+                            value           simple
+         dataset           name            simple
+         dedicated-cpu     ncpus           simple or range
+                            importance      simple
+
+         capped-memory     physical        simple with scale
+                            swap            simple with scale
+                            locked          simple with scale
+
+         capped-cpu        ncpus           simple
+
+
+
+
+       To further specify things, the breakdown of the complex property
+       "value" of the "rctl" resource type, it consists of three name/value
+       pairs, the names being "priv", "limit" and "action", each of which
+       takes a simple value. The "name" property of an "attr" resource is
+       syntactically restricted in a fashion similar but not identical to jail
+       names: it must begin with an alphanumeric, and can contain
+       alphanumerics plus the hyphen (--), underscore (__), and dot (..)
+       characters. Attribute names beginning with "jail" are reserved for use
+       by the system. Finally, the "autoboot" global property must have a
+       value of "true" or "false".
+
+OOPPTTIIOONNSS
+       The following options are supported:
+
+       --ff _c_o_m_m_a_n_d___f_i_l_e
+
+           Specify the name of jjaaiillccffgg command file. _c_o_m_m_a_n_d___f_i_l_e is a text
+           file of jjaaiillccffgg subcommands, one per line.
+
+
+       --jj _j_a_i_l_n_a_m_e
+
+           Specify the name of a jail. Jail names are case sensitive. Jail
+           names must begin with an alphanumeric character and can contain
+           alphanumeric characters, the underscore (__) the hyphen (--), and the
+           dot (..).
+
+
+SSUUBBCCOOMMMMAANNDDSS
+       You can use the aadddd and sseelleecctt subcommands to select a specific
+       resource, at which point the scope changes to that resource. The eenndd
+       and ccaanncceell subcommands are used to complete the resource specification,
+       at which time the scope is reverted back to global. Certain
+       subcommands, such as aadddd, rreemmoovvee and sseett, have different semantics in
+       each scope.
+
+
+       jjaaiillccffgg supports a semicolon-separated list of subcommands. For
+       example:
+
+         # jjaaiillccffgg --jj mmyyjjaaiill ""aadddd nneett;; sseett pphhyyssiiccaall==mmyyvvnniicc;; eenndd""
+
+
+
+
+       Subcommands which can result in destructive actions or loss of work
+       have an --FF option to force the action. If input is from a terminal
+       device, the user is prompted when appropriate if such a command is
+       given without the --FF option otherwise, if such a command is given
+       without the --FF option, the action is disallowed, with a diagnostic
+       message written to standard error.
+
+
+       The following subcommands are supported:
+
+       aadddd _r_e_s_o_u_r_c_e_-_t_y_p_e (global scope)
+       aadddd _p_r_o_p_e_r_t_y_-_n_a_m_e _p_r_o_p_e_r_t_y_-_v_a_l_u_e (resource scope)
+
+           In the global scope, begin the specification for a given resource
+           type. The scope is changed to that resource type.
+
+           In the resource scope, add a property of the given name with the
+           given value.  The syntax for property values varies with different
+           property types. In general, it is a simple value or a list of
+           simple values enclosed in square brackets, separated by commas
+           ([[ffoooo,,bbaarr,,bbaazz]]). See PPRROOPPEERRTTIIEESS.
+
+
+       ccaanncceell
+
+           End the resource specification and reset scope to global. Abandons
+           any partially specified resources. ccaanncceell is only applicable in the
+           resource scope.
+
+
+       cclleeaarr _p_r_o_p_e_r_t_y_-_n_a_m_e
+
+           Clear the value for the property.
+
+
+       ccoommmmiitt
+
+           Commit the current configuration from memory to stable storage. The
+           configuration must be committed to be used by jjaaiillaaddmm. Until the
+           in-memory configuration is committed, you can remove changes with
+           the rreevveerrtt subcommand. The ccoommmmiitt operation is attempted
+           automatically upon completion of a jjaaiillccffgg session. Since a
+           configuration must be correct to be committed, this operation
+           automatically does a verify.
+
+
+       ccrreeaattee [[--FF]] [[ --aa _p_a_t_h |--bb || --tt _t_e_m_p_l_a_t_e]]
+
+           Create an in-memory configuration for the specified jail. Use
+           ccrreeaattee to begin to configure a new jail. See ccoommmmiitt for saving this
+           to stable storage.
+
+           If you are overwriting an existing configuration, specify the --FF
+           option to force the action. Specify the --tt _t_e_m_p_l_a_t_e option to
+           create a configuration identical to _t_e_m_p_l_a_t_e, where _t_e_m_p_l_a_t_e is the
+           name of a configured jail.
+
+           Use the --aa _p_a_t_h option to facilitate configuring a detached jail on
+           a new host. The _p_a_t_h parameter is the jailpath location of a
+           detached jail that has been moved on to this new host. Once the
+           detached jail is configured, it should be installed using the
+           "jjaaiillaaddmm aattttaacchh" command (see jjaaiillaaddmm(8)). All validation of the
+           new jail happens during the aattttaacchh process, not during jail
+           configuration.
+
+           Use the --bb option to create a blank configuration. Without
+           arguments, ccrreeaattee applies the Sun default settings.
+
+
+       ddeelleettee [[--FF]]
+
+           Delete the specified configuration from memory and stable storage.
+           This action is instantaneous, no commit is necessary. A deleted
+           configuration cannot be reverted.
+
+           Specify the --FF option to force the action.
+
+
+       eenndd
+
+           End the resource specification. This subcommand is only applicable
+           in the resource scope. jjaaiillccffgg checks to make sure the current
+           resource is completely specified. If so, it is added to the in-
+           memory configuration (see ccoommmmiitt for saving this to stable storage)
+           and the scope reverts to global. If the specification is
+           incomplete, it issues an appropriate error message.
+
+
+       eexxppoorrtt [[--ff _o_u_t_p_u_t_-_f_i_l_e]]
+
+           Print configuration to standard output. Use the --ff option to print
+           the configuration to _o_u_t_p_u_t_-_f_i_l_e. This option produces output in a
+           form suitable for use in a command file.
+
+
+       hheellpp [[uussaaggee]] [[_s_u_b_c_o_m_m_a_n_d] [syntax] [_c_o_m_m_a_n_d_-_n_a_m_e]]
+
+           Print general help or help about given topic.
+
+
+       iinnffoo jjaaiillnnaammee || jjaaiillppaatthh || aauuttoobboooott || bbrraanndd || ppooooll || lliimmiittpprriivv
+       iinnffoo [[_r_e_s_o_u_r_c_e_-_t_y_p_e [[_p_r_o_p_e_r_t_y_-_n_a_m_e==_p_r_o_p_e_r_t_y_-_v_a_l_u_e]]**]]
+
+           Display information about the current configuration. If _r_e_s_o_u_r_c_e_-
+           _t_y_p_e is specified, displays only information about resources of the
+           relevant type. If any _p_r_o_p_e_r_t_y_-_n_a_m_e value pairs are specified,
+           displays only information about resources meeting the given
+           criteria. In the resource scope, any arguments are ignored, and
+           iinnffoo displays information about the resource which is currently
+           being added or modified.
+
+
+       rreemmoovvee _r_e_s_o_u_r_c_e_-_t_y_p_e{{_p_r_o_p_e_r_t_y_-_n_a_m_e==_p_r_o_p_e_r_t_y _-_v_a_l_u_e}}(global scope)
+
+           In the global scope, removes the specified resource. The [[]] syntax
+           means 0 or more of whatever is inside the square braces. If you
+           want only to remove a single instance of the resource, you must
+           specify enough property name-value pairs for the resource to be
+           uniquely identified. If no property name-value pairs are specified,
+           all instances will be removed. If there is more than one pair is
+           specified, a confirmation is required, unless you use the --FF
+           option.
+
+
+       sseelleecctt _r_e_s_o_u_r_c_e_-_t_y_p_e {{_p_r_o_p_e_r_t_y_-_n_a_m_e==_p_r_o_p_e_r_t_y_-_v_a_l_u_e}}
+
+           Select the resource of the given type which matches the given
+           _p_r_o_p_e_r_t_y_-_n_a_m_e _p_r_o_p_e_r_t_y_-_v_a_l_u_e pair criteria, for modification. This
+           subcommand is applicable only in the global scope. The scope is
+           changed to that resource type. The {{}} syntax means 1 or more of
+           whatever is inside the curly braces. You must specify enough
+           _p_r_o_p_e_r_t_y _-_n_a_m_e _p_r_o_p_e_r_t_y_-_v_a_l_u_e pairs for the resource to be uniquely
+           identified.
+
+
+       sseett _p_r_o_p_e_r_t_y_-_n_a_m_e==_p_r_o_p_e_r_t_y--_v_a_l_u_e
+
+           Set a given property name to the given value. Some properties (for
+           example, jjaaiillnnaammee and jjaaiillppaatthh) are global while others are
+           resource-specific. This subcommand is applicable in both the global
+           and resource scopes.
+
+
+       vveerriiffyy
+
+           Verify the current configuration for correctness:
+
+               o      All resources have all of their required properties
+                      specified.
+
+               o      A jjaaiillppaatthh is specified.
+
+
+       rreevveerrtt [[--FF]]
+
+           Revert the configuration back to the last committed state. The --FF
+           option can be used to force the action.
+
+
+       eexxiitt [[--FF]]
+
+           Exit the jjaaiillccffgg session. A commit is automatically attempted if
+           needed.  You can also use an EEOOFF character to exit jjaaiillccffgg. The --FF
+           option can be used to force the action.
+
+
+EEXXAAMMPPLLEESS
+       EExxaammppllee 11 Creating the Environment for a New Jail
+
+
+       In the following example, jjaaiillccffgg creates the environment for a new
+       jail.  //uussrr//llooccaall is loopback mounted from the global jail into
+       //oopptt//llooccaall. //oopptt//ssffww is loopback mounted from the global jail, three
+       logical network interfaces are added, and a limit on the number of
+       fair-share scheduler (FSS) CPU shares for a jail is set using the rrccttll
+       resource type. The example also shows how to select a given resource
+       for modification.
+
+
+         example# jjaaiillccffgg --jj mmyyjjaaiill33
+         my-jail3: No such jail configured
+         Use 'create' to begin configuring a new jail.
+         jailcfg:myjail3> ccrreeaattee
+         jailcfg:myjail3> sseett jjaaiillppaatthh==//eexxppoorrtt//hhoommee//mmyy--jjaaiill33
+         jailcfg:myjail3> sseett aauuttoobboooott==ttrruuee
+         jailcfg:myjail3> aadddd ffss
+         jailcfg:myjail3:fs> sseett ddiirr==//uussrr//llooccaall
+         jailcfg:myjail3:fs> sseett ssppeecciiaall==//oopptt//llooccaall
+         jailcfg:myjail3:fs> sseett ttyyppee==llooffss
+         jailcfg:myjail3:fs> aadddd ooppttiioonnss [[rroo,,nnooddeevviicceess]]
+         jailcfg:myjail3:fs> eenndd
+         jailcfg:myjail3> aadddd ffss
+         jailcfg:myjail3:fs> sseett ddiirr==//mmnntt
+         jailcfg:myjail3:fs> sseett ssppeecciiaall==//ddeevv//ddsskk//cc00tt00dd00ss77
+         jailcfg:myjail3:fs> sseett rraaww==//ddeevv//rrddsskk//cc00tt00dd00ss77
+         jailcfg:myjail3:fs> sseett ttyyppee==uuffss
+         jailcfg:myjail3:fs> eenndd
+         jailcfg:myjail3> aadddd nneett
+         jailcfg:myjail3:net> sseett aaddddrreessss==119922..116688..00..11//2244
+         jailcfg:myjail3:net> sseett pphhyyssiiccaall==eerrii00
+         jailcfg:myjail3:net> eenndd
+         jailcfg:myjail3> aadddd nneett
+         jailcfg:myjail3:net> sseett aaddddrreessss==119922..116688..11..22//2244
+         jailcfg:myjail3:net> sseett pphhyyssiiccaall==eerrii00
+         jailcfg:myjail3:net> eenndd
+         jailcfg:myjail3> aadddd nneett
+         jailcfg:myjail3:net> sseett aaddddrreessss==119922..116688..22..33//2244
+         jailcfg:myjail3:net> sseett pphhyyssiiccaall==eerrii00
+         jailcfg:myjail3:net> eenndd
+         jailcfg:my-jail3> sseett ccppuu--sshhaarreess==55
+         jailcfg:my-jail3> aadddd ccaappppeedd--mmeemmoorryy
+         jailcfg:my-jail3:capped-memory> sseett pphhyyssiiccaall==5500mm
+         jailcfg:my-jail3:capped-memory> sseett sswwaapp==110000mm
+         jailcfg:my-jail3:capped-memory> eenndd
+         jailcfg:myjail3> eexxiitt
+
+
+
+       EExxaammppllee 22 Creating a Non-Native Jail
+
+
+       The following example creates a new Linux jail:
+
+
+         example# jjaaiillccffgg --jj llxxjjaaiill
+         lxjail: No such jail configured
+         Use 'create' to begin configuring a new jail
+         jailcfg:lxjail> ccrreeaattee --tt SSUUNNWWllxx
+         jailcfg:lxjail> sseett jjaaiillppaatthh==//eexxppoorrtt//jjaaiillss//llxxjjaaiill
+         jailcfg:lxjail> sseett aauuttoobboooott==ttrruuee
+         jailcfg:lxjail> eexxiitt
+
+
+
+       EExxaammppllee 33 Creating an Exclusive-IP Jail
+
+
+       The following example creates a jail that is granted exclusive access
+       to bbggee11 and bbggee3333000000 and that is isolated at the IP layer from the
+       other jails configured on the system.
+
+
+         example# jjaaiillccffgg --jj eexxccll
+         excl: No such jail configured
+         Use 'create' to begin configuring a new jail
+         jailcfg:excl> ccrreeaattee
+         jailcfg:excl> sseett jjaaiillppaatthh==//eexxppoorrtt//jjaaiillss//eexxccll
+         jailcfg:excl> sseett iipp--ttyyppee==eexxcclluussiivvee
+         jailcfg:excl> aadddd nneett
+         jailcfg:excl:net> sseett pphhyyssiiccaall==bbggee11
+         jailcfg:excl:net> eenndd
+         jailcfg:excl> aadddd nneett
+         jailcfg:excl:net> sseett pphhyyssiiccaall==bbggee3333000000
+         jailcfg:excl:net> eenndd
+         jailcfg:excl> eexxiitt
+
+
+
+       EExxaammppllee 44 Associating a Jail with a Resource Pool
+
+
+       The following example shows how to associate an existing jail with an
+       existing resource pool:
+
+
+         example# jjaaiillccffgg --jj mmyyjjaaiill
+         jailcfg:myjail> sseett ppooooll==mmyyppooooll
+         jailcfg:myjail> eexxiitt
+
+
+
+
+       For more information about resource pools, see ppoooollaaddmm(1M) and
+       ppoooollccffgg(1M).
+
+
+       EExxaammppllee 55 Changing the Name of a Jail
+
+
+       The following example shows how to change the name of an existing jail:
+
+
+         example# jjaaiillccffgg --jj mmyyjjaaiill
+         jailcfg:myjail> sseett jjaaiillnnaammee==mmyyjjaaiill22
+         jailcfg:myjail2> eexxiitt
+
+
+
+       EExxaammppllee 66 Changing the Privilege Set of a Jail
+
+
+       The following example shows how to change the set of privileges an
+       existing jail's processes will be limited to the next time the jail is
+       booted. In this particular case, the privilege set will be the standard
+       safe set of privileges a jail normally has along with the privilege to
+       change the system date and time:
+
+
+         example# jjaaiillccffgg --jj mmyyjjaaiill
+         jailcfg:myjail> sseett lliimmiittpprriivv==""ddeeffaauulltt,,ssyyss__ttiimmee""
+         jailcfg:myjail2> eexxiitt
+
+
+
+       EExxaammppllee 77 Setting the jjaaiill..ccppuu--sshhaarreess Property for the Global Jail
+
+
+       The following command sets the jjaaiill..ccppuu--sshhaarreess property for the global
+       jail:
+
+
+         example# jjaaiillccffgg --jj gglloobbaall
+         jailcfg:global> sseett ccppuu--sshhaarreess==55
+         jailcfg:global> eexxiitt
+
+
+
+       EExxaammppllee 88 Using Pattern Matching
+
+
+       The following commands illustrate jjaaiillccffgg support for pattern matching.
+       In the jail fflleexxllmm, enter:
+
+
+         jailcfg:flexlm> aadddd ddeevviiccee
+         jailcfg:flexlm:device> sseett mmaattcchh==""//ddeevv//ccuuaa//aa0000[[22--55]]""
+         jailcfg:flexlm:device> eenndd
+
+
+
+
+       In the global jail, enter:
+
+
+         global# llss //ddeevv//ccuuaa
+         a     a000  a001  a002  a003  a004  a005  a006  a007  b
+
+
+
+
+       In the jail fflleexxllmm, enter:
+
+
+         flexlm# llss //ddeevv//ccuuaa
+         a002  a003  a004  a005
+
+
+
+       EExxaammppllee 99 Setting a Cap for a Jail to Three CPUs
+
+
+       The following sequence uses the jjaaiillccffgg command to set the CPU cap for
+       a jail to three CPUs.
+
+
+         jailcfg:myjail> aadddd ccaappppeedd--ccppuu
+         jailcfg:myjail>capped-cpu> sseett nnccppuuss==33
+         jailcfg:myjail>capped-cpu>capped-cpu> eenndd
+
+
+
+
+       The preceding sequence, which uses the capped-cpu property, is
+       equivalent to the following sequence, which makes use of the jjaaiill..ccppuu--
+       ccaapp resource control.
+
+
+         jailcfg:myjail> aadddd rrccttll
+         jailcfg:myjail:rctl> sseett nnaammee==jjaaiill..ccppuu--ccaapp
+         jailcfg:myjail:rctl> aadddd vvaalluuee ((pprriivv==pprriivviilleeggeedd,,lliimmiitt==330000,,aaccttiioonn==nnoonnee))
+         jailcfg:myjail:rctl> eenndd
+
+
+
+       EExxaammppllee 1100 Using kkssttaatt to Monitor CPU Caps
+
+
+       The following command displays information about all CPU caps.
+
+
+         # kkssttaatt --nn //ccppuuccaappss//
+         module: caps                            instance: 0
+         name:   cpucaps_project_0               class:    project_caps
+                 above_sec                       0
+                 below_sec                       2157
+                 crtime                          821.048183159
+                 maxusage                        2
+                 nwait                           0
+                 snaptime                        235885.637253027
+                 usage                           0
+                 value                           18446743151372347932
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_project_1               class:    project_caps
+                 above_sec                       0
+                 below_sec                       0
+                 crtime                          225339.192787265
+                 maxusage                        5
+                 nwait                           0
+                 snaptime                        235885.637591677
+                 usage                           5
+                 value                           18446743151372347932
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_project_201             class:    project_caps
+                 above_sec                       0
+                 below_sec                       235105
+                 crtime                          780.37961782
+                 maxusage                        100
+                 nwait                           0
+                 snaptime                        235885.637789687
+                 usage                           43
+                 value                           100
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_project_202             class:    project_caps
+                 above_sec                       0
+                 below_sec                       235094
+                 crtime                          791.72983782
+                 maxusage                        100
+                 nwait                           0
+                 snaptime                        235885.637967512
+                 usage                           48
+                 value                           100
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_project_203             class:    project_caps
+                 above_sec                       0
+                 below_sec                       235034
+                 crtime                          852.104401481
+                 maxusage                        75
+                 nwait                           0
+                 snaptime                        235885.638144304
+                 usage                           47
+                 value                           100
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_project_86710           class:    project_caps
+                 above_sec                       22
+                 below_sec                       235166
+                 crtime                          698.441717859
+                 maxusage                        101
+                 nwait                           0
+                 snaptime                        235885.638319871
+                 usage                           54
+                 value                           100
+                 jailname                        global
+
+         module: caps                            instance: 0
+         name:   cpucaps_jail_0                  class:    jail_caps
+                 above_sec                       100733
+                 below_sec                       134332
+                 crtime                          821.048177123
+                 maxusage                        207
+                 nwait                           2
+                 snaptime                        235885.638497731
+                 usage                           199
+                 value                           200
+                 jailname                        global
+
+         module: caps                            instance: 1
+         name:   cpucaps_project_0               class:    project_caps
+                 above_sec                       0
+                 below_sec                       0
+                 crtime                          225360.256448422
+                 maxusage                        7
+                 nwait                           0
+                 snaptime                        235885.638714404
+                 usage                           7
+                 value                           18446743151372347932
+                 jailname                        test_001
+
+         module: caps                            instance: 1
+         name:   cpucaps_jail_1                  class:    jail_caps
+                 above_sec                       2
+                 below_sec                       10524
+                 crtime                          225360.256440278
+                 maxusage                        106
+                 nwait                           0
+                 snaptime                        235885.638896443
+                 usage                           7
+                 value                           100
+                 jailname                        test_001
+
+
+
+       EExxaammppllee 1111 Displaying CPU Caps for a Specific Jail or Project
+
+
+       Using the kkssttaatt --cc and --ii options, you can display CPU caps for a
+       specific jail or project, as below. The first command produces a
+       display for a specific project, the second for the same project within
+       jail 1.
+
+
+         # kkssttaatt --cc pprroojjeecctt__ccaappss
+
+         # kkssttaatt --cc pprroojjeecctt__ccaappss --ii 11
+
+
+
+EEXXIITT SSTTAATTUUSS
+       The following exit values are returned:
+
+       00
+
+           Successful completion.
+
+
+       11
+
+           An error occurred.
+
+
+       22
+
+           Invalid usage.
+
+
+AATTTTRRIIBBUUTTEESS
+       See aattttrriibbuutteess(5) for descriptions of the following attributes:
+
+
+
+
+       +--------------------+-----------------+
+       |  ATTRIBUTE TYPE    | ATTRIBUTE VALUE |
+       +--------------------+-----------------+
+       |Interface Stability | Volatile        |
+       +--------------------+-----------------+
+
+SSEEEE AALLSSOO
+       pppprriivv(1), pprrccttll(1), zzllooggiinn(1), kkssttaatt(1M), mmoouunntt(1M), ppoooollaaddmm(1M),
+       ppoooollccffgg(1M), ppoooolldd(1M), rrccaappdd(1M), rrccttllaaddmm(1M), ssvvccaaddmm(1M),
+       ssyyssiiddttooooll(1M), zzffss(1M), jjaaiillaaddmm(1M), pprriivv__ssttrr__ttoo__sseett(3C),
+       kkssttaatt(3KSTAT), vvffssttaabb(4), aattttrriibbuutteess(5), bbrraannddss(5), ffnnmmaattcchh(5), llxx(5),
+       pprriivviilleeggeess(5), rreessoouurrccee__ccoonnttrroollss(5), jjaaiillss(5)
+
+
+       _S_y_s_t_e_m _A_d_m_i_n_i_s_t_r_a_t_i_o_n _G_u_i_d_e_: _S_o_l_a_r_i_s _C_o_n_t_a_i_n_e_r_s_-_R_e_s_o_u_r_c_e _M_a_n_a_g_e_m_e_n_t_,
+       _a_n_d _S_o_l_a_r_i_s _J_a_i_l_s
+
+NNOOTTEESS
+       All character data used by jjaaiillccffgg must be in US-ASCII encoding.
+
+
+
+                               February 28, 2014                    JAILCFG(8)
