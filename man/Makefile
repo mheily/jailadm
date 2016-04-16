@@ -21,13 +21,13 @@ jailadm.8.html: jailadm.8
 	man2html < `echo $* | sed 's/\.html//'` > $*
 
 jailadm.8.txt: jailadm.8
-	man ./jailadm.8 > jailadm.8.txt
+	man ./jailadm.8 | col -b > jailadm.8.txt
 
 jailcfg.8.html: jailcfg.8
 	man2html < `echo $* | sed 's/\.html//'` > $*
 
 jailcfg.8.txt: jailcfg.8
-	man ./jailcfg.8 > jailcfg.8.txt
+	man ./jailcfg.8 | col -b > jailcfg.8.txt
 
 clean:
 	rm -f *.html *.txt

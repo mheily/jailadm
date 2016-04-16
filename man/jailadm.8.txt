@@ -1,58 +1,58 @@
-JAILADM(8)              FreeBSD System Manager's Manual             JAILADM(8)
+JAILADM(8)		FreeBSD System Manager's Manual 	    JAILADM(8)
 
 
 
-NNAAMMEE
+NAME
        jailadm - administer jails
 
-SSYYNNOOPPSSIISS
-       jjaaiillaaddmm --jj _j_a_i_l_n_a_m_e [--uu _u_u_i_d_-_m_a_t_c_h] _s_u_b_c_o_m_m_a_n_d
-            [_s_u_b_c_o_m_m_a_n_d___o_p_t_i_o_n_s]
+SYNOPSIS
+       jailadm -j jailname [-u uuid-match] subcommand
+	    [subcommand_options]
 
 
-       jjaaiillaaddmm [--RR _r_o_o_t] [--jj _j_a_i_l_n_a_m_e] [--uu _u_u_i_d_-_m_a_t_c_h] list
-            [_l_i_s_t___o_p_t_i_o_n_s]
+       jailadm [-R root] [-j jailname] [-u uuid-match] list
+	    [list_options]
 
 
-       jjaaiillaaddmm [--RR _r_o_o_t] --jj _j_a_i_l_n_a_m_e [--uu _u_u_i_d_-_m_a_t_c_h] mark incomplete
+       jailadm [-R root] -j jailname [-u uuid-match] mark incomplete
 
 
-DDEESSCCRRIIPPTTIIOONN
-       The jjaaiillaaddmm utility is used to administer jails. A jail is an
+DESCRIPTION
+       The jailadm utility is used to administer jails. A jail is an
        application container that is maintained by the operating system
        runtime.
 
-SSEECCUURRIITTYY
+SECURITY
        Once a process has been placed in a jail, the process or any of its
        children cannot change jails.
 
-OOPPTTIIOONNSS
+OPTIONS
        The following options are supported:
 
-       --RR _r_o_o_t
+       -R root
 
-           Specify an alternate root (boot environment). This option can only
-           be used in conjunction with the "lliisstt" and "mmaarrkk" subcommands.
-
-
-       --uu _u_u_i_d_-_m_a_t_c_h
-
-           Unique identifier for a jail, as assigned by lliibbuuuuiidd(3LIB). If this
-           option is present and the argument is a non-empty string, then the
-           jail matching the UUUUIIDD is selected instead of the one named by the
-           --jj option, if such a jail is present.
+	   Specify an alternate root (boot environment). This option can only
+	   be used in conjunction with the "list" and "mark" subcommands.
 
 
-       --jj _j_a_i_l_n_a_m_e
+       -u uuid-match
 
-           String identifier for a jail.
+	   Unique identifier for a jail, as assigned by libuuid(3LIB). If this
+	   option is present and the argument is a non-empty string, then the
+	   jail matching the UUID is selected instead of the one named by the
+	   -j option, if such a jail is present.
 
 
-SSUUBBCCOOMMMMAANNDDSS
+       -j jailname
+
+	   String identifier for a jail.
+
+
+SUBCOMMANDS
        Subcommands which can result in destructive actions or loss of work
-       have a --FF flag to force the action. If input is from a terminal device,
-       the user is prompted if such a command is given without the --FF flag;
-       otherwise, if such a command is given without the --FF flag, the action
+       have a -F flag to force the action. If input is from a terminal device,
+       the user is prompted if such a command is given without the -F flag;
+       otherwise, if such a command is given without the -F flag, the action
        is disallowed, with a diagnostic message written to standard error. If
        a jail installation or uninstallation is interrupted, the jail is left
        in the incomplete state. Use uninstall to reset such a jail back to the
@@ -61,367 +61,367 @@ SSUUBBCCOOMMMMAANNDDSS
 
        The following subcommands are supported:
 
-       aattttaacchh [--FF] [--nn _p_a_t_h] [_b_r_a_n_d_-_s_p_e_c_i_f_i_c _o_p_t_i_o_n_s]
+       attach [-F] [-n path] [brand-specific options]
 
-           The aattttaacchh subcommand takes a jail that has been detached from one
-           system and attaches the jail onto a new system. Therefore, it is
-           advised (though not required) that the ddeettaacchh subcommand should be
-           run before the "attach" takes place. Once you have the new jail in
-           the configured state, use the aattttaacchh subcommand to set up the jail
-           root instead of installing the jail as a new jail.
+	   The attach subcommand takes a jail that has been detached from one
+	   system and attaches the jail onto a new system. Therefore, it is
+	   advised (though not required) that the detach subcommand should be
+	   run before the "attach" takes place. Once you have the new jail in
+	   the configured state, use the attach subcommand to set up the jail
+	   root instead of installing the jail as a new jail.
 
-           The --FF option can be used to force the jail into the "installed"
-           state with no validation. This option should be used with care
-           since it can leave the jail in an unsupportable state if it was
-           moved from a source system to a target system that is unable to
-           properly host the jail. The --nn option can be used to run the aattttaacchh
-           subcommand, without executing the command. It uses the output of
-           the "ddeettaacchh --nn" subcommand as input and is useful to identify any
-           conflicting issues, such as the network device being incompatible,
-           and can also determine whether the host is capable of supporting
-           the jail. The path can be "--", to read the input from standard
-           input.
+	   The -F option can be used to force the jail into the "installed"
+	   state with no validation. This option should be used with care
+	   since it can leave the jail in an unsupportable state if it was
+	   moved from a source system to a target system that is unable to
+	   properly host the jail. The -n option can be used to run the attach
+	   subcommand, without executing the command. It uses the output of
+	   the "detach -n" subcommand as input and is useful to identify any
+	   conflicting issues, such as the network device being incompatible,
+	   and can also determine whether the host is capable of supporting
+	   the jail. The path can be "-", to read the input from standard
+	   input.
 
-           The jail's brand may include additional options that govern how the
-           jail will be attached. See bbrraannddss(5) for specific brand
-           information.
+	   The jail's brand may include additional options that govern how the
+	   jail will be attached. See brands(5) for specific brand
+	   information.
 
-           The jail being attached must first be configured using the jjaaiillccffgg
-           (see jjaaiillccffgg(1M)) command. This does not apply when running "aattttaacchh
-           --nn".
+	   The jail being attached must first be configured using the jailcfg
+	   (see jailcfg(1M)) command. This does not apply when running "attach
+	   -n".
 
-           Use the following command to attach a jail:
+	   Use the following command to attach a jail:
 
-             # jjaaiillaaddmm --jj mmyy--jjaaiill aattttaacchh
+	     # jailadm -j my-jail attach
 
 
 
 
-       bboooott [---- _b_o_o_t___o_p_t_i_o_n_s]
+       boot [-- boot_options]
 
-           Boot (or activate) the specified jails.
+	   Boot (or activate) the specified jails.
 
-           The following _b_o_o_t___o_p_t_i_o_n_s are supported:
+	   The following boot_options are supported:
 
-           --ii _a_l_t_i_n_i_t
+	   -i altinit
 
-               Select an alternative executable to be the primordial Process.
-               _a_l_t_i_n_i_t is a valid path to an executable. The default
-               primordial process is iinniitt(1M).
+	       Select an alternative executable to be the primordial Process.
+	       altinit is a valid path to an executable. The default
+	       primordial process is init(1M).
 
 
 
 
-       cclloonnee [--mm _c_o_p_y] [--ss _z_f_s___s_n_a_p_s_h_o_t] _s_o_u_r_c_e___j_a_i_l
+       clone [-m copy] [-s zfs_snapshot] source_jail
 
-           Install a jail by copying an existing installed jail. This
-           subcommand is an alternative way to install the jail.
+	   Install a jail by copying an existing installed jail. This
+	   subcommand is an alternative way to install the jail.
 
-           --mm _c_o_p_y
+	   -m copy
 
-               Force the clone to be a copy, even if a "ZZFFSS clone" is
-               possible.
+	       Force the clone to be a copy, even if a "ZFS clone" is
+	       possible.
 
 
-           --ss _z_f_s___s_n_a_p_s_h_o_t
+	   -s zfs_snapshot
 
-               Specify the name of a ZZFFSS snapshot to use as the source of the
-               clone. The _s_n_a_p_s_h_o_t must be a _s_n_a_p_s_h_o_t of the source jail taken
-               from a previous "jjaaiillaaddmm clone" installation.
+	       Specify the name of a ZFS snapshot to use as the source of the
+	       clone. The snapshot must be a snapshot of the source jail taken
+	       from a previous "jailadm clone" installation.
 
-           The source jail must be halted before this subcommand can be used.
+	   The source jail must be halted before this subcommand can be used.
 
 
-       ddeettaacchh [--nn]
+       detach [-n]
 
-           Detach the specified jail. Detaching a jail is the first step in
-           moving a jail from one system to another. The full procedure to
-           migrate a jail is that the jail is detached, the _j_a_i_l_p_a_t_h directory
-           is moved to the new host, and then the jail is attached on the new
-           host. Once the jail is detached, it is left in the configured
-           state. If you try to install or clone to a configured jail that has
-           been detached, you will receive an error message and the iinnssttaallll or
-           cclloonnee subcommand will not be allowed to proceed. The --nn option can
-           be used to run the ddeettaacchh subcommand, without executing the
-           command. This generates the information needed for running the
-           "aattttaacchh --nn" subcommand, which is useful to identify any conflicting
-           issues, such as the network device being incompatible or if the
-           host is capable of supporting the jail. The information is sent to
-           standard output and can be saved to a file or piped to the "aattttaacchh
-           --nn" subcommand.
+	   Detach the specified jail. Detaching a jail is the first step in
+	   moving a jail from one system to another. The full procedure to
+	   migrate a jail is that the jail is detached, the jailpath directory
+	   is moved to the new host, and then the jail is attached on the new
+	   host. Once the jail is detached, it is left in the configured
+	   state. If you try to install or clone to a configured jail that has
+	   been detached, you will receive an error message and the install or
+	   clone subcommand will not be allowed to proceed. The -n option can
+	   be used to run the detach subcommand, without executing the
+	   command. This generates the information needed for running the
+	   "attach -n" subcommand, which is useful to identify any conflicting
+	   issues, such as the network device being incompatible or if the
+	   host is capable of supporting the jail. The information is sent to
+	   standard output and can be saved to a file or piped to the "attach
+	   -n" subcommand.
 
-           Use the following command to detach a jail:
+	   Use the following command to detach a jail:
 
-             # jailadm -j my-jail detach
+	     # jailadm -j my-jail detach
 
 
-           The source jail must be halted before this subcommand can be used.
+	   The source jail must be halted before this subcommand can be used.
 
 
-       hhaalltt
+       halt
 
-           Halt the specified jails. hhaalltt bypasses running the shutdown
-           scripts inside the jail. It also removes run time resources of the
-           jail.
+	   Halt the specified jails. halt bypasses running the shutdown
+	   scripts inside the jail. It also removes run time resources of the
+	   jail.
 
 
-       hheellpp [_s_u_b_c_o_m_m_a_n_d]
+       help [subcommand]
 
-           Display general help. If you specify _s_u_b_c_o_m_m_a_n_d, displays help on
-           _s_u_b_c_o_m_m_a_n_d.
+	   Display general help. If you specify subcommand, displays help on
+	   subcommand.
 
 
-       iinnssttaallll [--xx _n_o_d_a_t_a_s_e_t] [_b_r_a_n_d_-_s_p_e_c_i_f_i_c _o_p_t_i_o_n_s]
+       install [-x nodataset] [brand-specific options]
 
-           Install the specified jail on the system. This subcommand
-           automatically attempts to verify first, most verification errors
-           are fatal. See the vveerriiffyy subcommand.
+	   Install the specified jail on the system. This subcommand
+	   automatically attempts to verify first, most verification errors
+	   are fatal. See the verify subcommand.
 
-           --xx _n_o_d_a_t_a_s_e_t
+	   -x nodataset
 
-               Do not create a ZZFFSS file system.
+	       Do not create a ZFS file system.
 
-           The jail's brand may include additional options that govern how the
-           software will be installed in the jail. See bbrraannddss(5) for specific
-           brand information.
+	   The jail's brand may include additional options that govern how the
+	   software will be installed in the jail. See brands(5) for specific
+	   brand information.
 
 
-       lliisstt [_l_i_s_t___o_p_t_i_o_n_s]
+       list [list_options]
 
-           Display the name of the current jails, or the specified jail if
-           indicated.
+	   Display the name of the current jails, or the specified jail if
+	   indicated.
 
-           By default, all running jails are listed. If you use this
-           subcommand with the jjaaiillaaddmm --jj _j_a_i_l_n_a_m_e option, it lists only the
-           specified jail, regardless of its state. In this case, the --ii and
-           --cc options are disallowed.
+	   By default, all running jails are listed. If you use this
+	   subcommand with the jailadm -j jailname option, it lists only the
+	   specified jail, regardless of its state. In this case, the -i and
+	   -c options are disallowed.
 
-           If neither the --ii or --cc options are given, all running jails are
-           listed.
+	   If neither the -i or -c options are given, all running jails are
+	   listed.
 
-           The following _l_i_s_t___o_p_t_i_o_n_s are supported:
+	   The following list_options are supported:
 
-           --cc
+	   -c
 
-               Display all configured jails. This option overides the --ii
-               option.
+	       Display all configured jails. This option overides the -i
+	       option.
 
 
-           --ii
+	   -i
 
-               Expand the display to all installed jails.
+	       Expand the display to all installed jails.
 
 
-           --pp
+	   -p
 
-               Request machine parsable output. The output format is a list of
-               lines, one per jail, with colon- delimited fields. These fields
-               are:
+	       Request machine parsable output. The output format is a list of
+	       lines, one per jail, with colon- delimited fields. These fields
+	       are:
 
-                 jailid:jailname:state:jailpath:uuid:brand:ip-type
+		 jailid:jailname:state:jailpath:uuid:brand:ip-type
 
 
-               If the jjaaiillppaatthh contains embedded colons, they can be escaped
-               by a backslash (""), which is parsable by using the shell
-               rreeaadd(1) function with the environmental variable IIFFSS. The _u_u_i_d
-               value is assigned by lliibbuuuuiidd(3LIB) when the jail is installed,
-               and is useful for identifying the same jail when present (or
-               renamed) on alternate boot environments. Any software that
-               parses the output of the "jjaaiillaaddmm lliisstt --pp" command must be able
-               to handle any fields that may be added in the future.
+	       If the jailpath contains embedded colons, they can be escaped
+	       by a backslash (""), which is parsable by using the shell
+	       read(1) function with the environmental variable IFS. The uuid
+	       value is assigned by libuuid(3LIB) when the jail is installed,
+	       and is useful for identifying the same jail when present (or
+	       renamed) on alternate boot environments. Any software that
+	       parses the output of the "jailadm list -p" command must be able
+	       to handle any fields that may be added in the future.
 
-               The --vv and --pp options are mutually exclusive. If neither --vv nor
-               --pp is used, just the jail name is listed.
+	       The -v and -p options are mutually exclusive. If neither -v nor
+	       -p is used, just the jail name is listed.
 
 
-           --vv
+	   -v
 
-               Display verbose information, including jail name, id, current
-               state, root directory, brand type, ip-type, and options.
+	       Display verbose information, including jail name, id, current
+	       state, root directory, brand type, ip-type, and options.
 
-               The --vv and --pp options are mutually exclusive. If neither --vv nor
-               --pp is used, just the jail name is listed.
+	       The -v and -p options are mutually exclusive. If neither -v nor
+	       -p is used, just the jail name is listed.
 
 
 
-       mmaarrkk iinnccoommpplleettee
+       mark incomplete
 
-           Change the state of an installed jail to "incomplete." This command
-           may be useful in cases where administrative changes on the system
-           have rendered a jail unusable or inconsistent. This change cannot
-           be undone (except by uninstalling the jail).
+	   Change the state of an installed jail to "incomplete." This command
+	   may be useful in cases where administrative changes on the system
+	   have rendered a jail unusable or inconsistent. This change cannot
+	   be undone (except by uninstalling the jail).
 
 
-       mmoovvee _n_e_w___j_a_i_l_p_a_t_h
+       move new_jailpath
 
-           Move the _j_a_i_l_p_a_t_h to _n_e_w___j_a_i_l_p_a_t_h. The jail must be halted before
-           this subcommand can be used. The _n_e_w___j_a_i_l_p_a_t_h must be a local file
-           system and normal restrictions for _j_a_i_l_p_a_t_h apply.
+	   Move the jailpath to new_jailpath. The jail must be halted before
+	   this subcommand can be used. The new_jailpath must be a local file
+	   system and normal restrictions for jailpath apply.
 
 
-       rreeaaddyy
+       ready
 
-           Prepares a jail for running applications but does not start any
-           user processes in the jail.
+	   Prepares a jail for running applications but does not start any
+	   user processes in the jail.
 
 
-       rreebboooott [---- _b_o_o_t___o_p_t_i_o_n_s]]
+       reboot[-- boot_options]]
 
-           Restart the jails. This is equivalent to a hhaalltt bboooott sequence. This
-           subcommand fails if the specified jails are not active. See _b_o_o_t
-           subcommand for the boot options.
+	   Restart the jails. This is equivalent to a halt boot sequence. This
+	   subcommand fails if the specified jails are not active. See boot
+	   subcommand for the boot options.
 
 
-       sshhuuttddoowwnn [--rr [---- _b_o_o_t___o_p_t_i_o_n_s]]
+       shutdown [-r [-- boot_options]]
 
-           Gracefully shutdown the specified jail. This subcommand waits for
-           all jail processes to finish; the default timeout is
-           SCF_PROPERTY_TIMEOUT value from the SMF service system/jails. If
-           the --rr option is specified, reboot the jail. See _b_o_o_t subcommand
-           for the boot options.
+	   Gracefully shutdown the specified jail. This subcommand waits for
+	   all jail processes to finish; the default timeout is
+	   SCF_PROPERTY_TIMEOUT value from the SMF service system/jails. If
+	   the -r option is specified, reboot the jail. See boot subcommand
+	   for the boot options.
 
 
-       uunniinnssttaallll [[--FF]]
+       uninstall [-F]
 
-           Uninstall the specified jail from the system. Use this subcommand
-           with caution.  It removes all of the files under the _j_a_i_l_p_a_t_h of
-           the jail in question.  You can use the --FF flag to force the action.
+	   Uninstall the specified jail from the system. Use this subcommand
+	   with caution.  It removes all of the files under the jailpath of
+	   the jail in question.  You can use the -F flag to force the action.
 
 
-       vveerriiffyy
+       verify
 
-           Check to make sure the configuration of the specified jail can
-           safely be installed on the machine. Following is a break-down of
-           the checks by rreessoouurrccee//pprrooppeerrttyy type:
+	   Check to make sure the configuration of the specified jail can
+	   safely be installed on the machine. Following is a break-down of
+	   the checks by resource/property type:
 
-           jjaaiillppaatthh
+	   jailpath
 
-               jjaaiillppaatthh and its parent directory exist and are owned by root
-               with appropriate modes . The appropriate modes are that
-               jjaaiillppaatthh is 770000, its parent is not ggrroouupp or wwoorrlldd--wwrriittaabbllee and
-               so forth.  jjaaiillppaatthh is not over an NFS mount. A sub-directory
-               of the jjaaiillppaatthh named "root" does not exist.
+	       jailpath and its parent directory exist and are owned by root
+	       with appropriate modes . The appropriate modes are that
+	       jailpath is 700, its parent is not group or world-writable and
+	       so forth.  jailpath is not over an NFS mount. A sub-directory
+	       of the jailpath named "root" does not exist.
 
-               If jjaaiillppaatthh does not exist, the vveerriiffyy does not fail, but
-               merely warns that a subsequent install will attempt to create
-               it with proper permissions. A vveerriiffyy subsequent to that might
-               fail should anything go wrong.
+	       If jailpath does not exist, the verify does not fail, but
+	       merely warns that a subsequent install will attempt to create
+	       it with proper permissions. A verify subsequent to that might
+	       fail should anything go wrong.
 
-               jjaaiillppaatthh cannot be a symbolic link.
+	       jailpath cannot be a symbolic link.
 
 
-           ffss
+	   fs
 
-               Any ffss resources have their _t_y_p_e value checked. An error is
-               reported if the value is one of pprroocc, mmnnttffss, aauuttooffss, or nnffss or
-               the filesystem does not have an associated mount binary at
-               //uussrr//lliibb//ffss//_<_f_s_t_y_p_e_>/mount.
+	       Any fs resources have their type value checked. An error is
+	       reported if the value is one of proc, mntfs, autofs, or nfs or
+	       the filesystem does not have an associated mount binary at
+	       /usr/lib/fs/<fstype>/mount.
 
-               It is an error for the _d_i_r_e_c_t_o_r_y to be a relative path.
+	       It is an error for the directory to be a relative path.
 
-               It is an error for the path specified by rraaww to be a relative
-               path or if there is no ffsscckk binary for a given filesystem type
-               at //uussrr//lliibb//ffss//_<_f_s_t_y_p_e_>/fsck. It is also an error if a
-               corresponding ffsscckk binary exists but a rraaww path is not
-               specified.
+	       It is an error for the path specified by raw to be a relative
+	       path or if there is no fsck binary for a given filesystem type
+	       at /usr/lib/fs/<fstype>/fsck. It is also an error if a
+	       corresponding fsck binary exists but a raw path is not
+	       specified.
 
 
-           nneett
+	   net
 
-               All physical network interfaces exist. All network address
-               resources are one of:
+	       All physical network interfaces exist. All network address
+	       resources are one of:
 
-                   o      a valid IPv4 address, optionally followed by "//" and
-                          a prefix length;
+		   o	  a valid IPv4 address, optionally followed by "/" and
+			  a prefix length;
 
-                   o      a valid IPv6 address, which must be followed by "//"
-                          and a prefix length;
+		   o	  a valid IPv6 address, which must be followed by "/"
+			  and a prefix length;
 
-                   o      a host name which resolves to an IPv4 address.
-               Note that hostnames that resolve to IPv6 addresses are not
-               supported.
+		   o	  a host name which resolves to an IPv4 address.
+	       Note that hostnames that resolve to IPv6 addresses are not
+	       supported.
 
-               The physical interface name is the network interface name.
+	       The physical interface name is the network interface name.
 
-               A jail can be configured to be either exclusive-IP or shared-
-               IP. For a shared-IP jail, both the physical and address
-               properties must be set. For an exclusive-IP jail, the physical
-               property must be set and the address property cannot be set.
+	       A jail can be configured to be either exclusive-IP or shared-
+	       IP. For a shared-IP jail, both the physical and address
+	       properties must be set. For an exclusive-IP jail, the physical
+	       property must be set and the address property cannot be set.
 
 
-           rrccttll
+	   rctl
 
-               It also verifies that any defined resource control values are
-               valid on the current machine. This means that the privilege
-               level is pprriivviilleeggeedd, the limit is lower than the currently
-               defined system value, and that the defined action agrees with
-               the actions that are valid for the given resource control.
+	       It also verifies that any defined resource control values are
+	       valid on the current machine. This means that the privilege
+	       level is privileged, the limit is lower than the currently
+	       defined system value, and that the defined action agrees with
+	       the actions that are valid for the given resource control.
 
 
 
-EEXXAAMMPPLLEESS
-       EExxaammppllee 11 Using the --mm Option
+EXAMPLES
+       Example 1 Using the -m Option
 
 
-       The following command illustrates the use of the --mm option.
+       The following command illustrates the use of the -m option.
 
 
-         # jjaaiillaaddmm bboooott ---- --mm vveerrbboossee
+	 # jailadm boot -- -m verbose
 
 
 
-       EExxaammppllee 22 Using the --ii Option
+       Example 2 Using the -i Option
 
 
-       The following command illustrates the use of the --ii option.
+       The following command illustrates the use of the -i option.
 
 
-         # jjaaiillaaddmm bboooott ---- --ii //ssbbiinn//iinniitt
+	 # jailadm boot -- -i /sbin/init
 
 
 
-       EExxaammppllee 33 Using the --ss Option
+       Example 3 Using the -s Option
 
 
-       The following command illustrates the use of the --ss option.
+       The following command illustrates the use of the -s option.
 
 
-         # jjaaiillaaddmm bboooott ---- --ss
+	 # jailadm boot -- -s
 
 
 
-EEXXIITT SSTTAATTUUSS
+EXIT STATUS
        The following exit values are returned:
 
-       00
+       0
 
-           Successful completion.
-
-
-       11
-
-           An error occurred.
+	   Successful completion.
 
 
-       22
+       1
 
-           Invalid usage.
-
-
-SSEEEE AALLSSOO
-       rreeaadd(1), ssvvccss(1), zzllooggiinn(1), jjaaiillnnaammee(1), iinniitt(1M), kkeerrnneell(1M),
-       ssvvccaaddmm(1M), ssvvcc..ssttaarrttdd(1M), ssvvcc..ssttaarrttdd(1M), jjaaiillccffgg(1M), lliibbuuuuiidd(3LIB),
-       aattttrriibbuutteess(5), bbrraannddss(5), nnaattiivvee(5), ssmmff(5), jjaaiillss(5)
+	   An error occurred.
 
 
-SSTTAANNDDAARRDDSS
-       The jjaaiillaaddmm(8) command is specific to FreeBSD and does not conform to
+       2
+
+	   Invalid usage.
+
+
+SEE ALSO
+       read(1), svcs(1), zlogin(1), jailname(1), init(1M), kernel(1M),
+       svcadm(1M), svc.startd(1M), svc.startd(1M), jailcfg(1M), libuuid(3LIB),
+       attributes(5), brands(5), native(5), smf(5), jails(5)
+
+
+STANDARDS
+       The jailadm(8) command is specific to FreeBSD and does not conform to
        any published standards.
 
-HHIISSTTOORRYY
-       The jjaaiillaaddmm(8) command is based on the zoneadm(1M) command that first
+HISTORY
+       The jailadm(8) command is based on the zoneadm(1M) command that first
        appeared in Sun Solaris version 10 .
 
 
 
-                               September 8, 2015                    JAILADM(8)
+			       September 8, 2015		    JAILADM(8)
