@@ -5,7 +5,7 @@
 .\" The contents of this file are subject to the terms of the Common Development and Distribution License (the "License"). You may not use this file except in compliance with the License. You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE or http://www.opensolaris.org/os/licensing.
 .\" See the License for the specific language governing permissions and limitations under the License. When distributing Covered Code, include this CDDL HEADER in each file and include the License file at usr/src/OPENSOLARIS.LICENSE. If applicable, add the following below this CDDL HEADER, with the
 .\" fields enclosed by brackets "[]" replaced with your own identifying information: Portions Copyright [yyyy] [name of copyright owner]
-.TH JAILCFG 1M "Feb 28, 2014"
+.TH JAILCFG 8 "Feb 28, 2014"
 .SH NAME
 jailcfg \- set up jail configuration
 .SH SYNOPSIS
@@ -492,19 +492,6 @@ Path to jail's file system.
 .sp .6
 .RS 4n
 Boolean indicating that a jail should be booted automatically at system boot.
-Note that if the jails service is disabled, the jail will not autoboot,
-regardless of the setting of this property. You enable the jails service with a
-\fBsvcadm\fR command, such as:
-.sp
-.in +2
-.nf
-# \fBsvcadm enable svc:/system/jails:default\fR
-.fi
-.in -2
-.sp
-
-Replace \fBenable\fR with \fBdisable\fR to disable the jails service. See
-\fBsvcadm\fR(1M).
 .RE
 
 .sp
